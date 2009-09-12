@@ -1,0 +1,80 @@
+<?
+ignore_user_abort(true);
+include('func.php');
+
+$rootdir=getbase($_GET['base']);
+if(($file=safepath($rootdir,$_GET['file']))===false){
+	die();
+}
+$hash=mkhash($rootdir.$file);
+$thash=$_GET['base'].'-'.$hash;
+$hash=$_GET['base'].'/'.$hash;
+
+if(preg_match('/^[0-9]+x[0-9]+$/',$_GET['size'])){
+	$size=$_GET['size'];
+}else{
+	$size=$DEFAULT['thumb_size'];
+}
+$extmap=array(
+	'zip'=>'zip.gif',
+	'rar'=>'rar.gif',
+	'7z'=>'7zip.gif',
+	'7zip'=>'7zip.gif',
+	'tgz'=>'gzip.gif',
+	'gz'=>'gzip.gif',
+	'tar'=>'tar.gif',
+	'xls'=>'xls.gif',
+	'doc'=>'doc.gif',
+	'ppt'=>'ppt.gif',
+	'txt'=>'txt.gif',
+	'kmz'=>'ge.gif',
+	'kml'=>'ge.gif',
+	'htm'=>'html.gif',
+	'html'=>'html.gif',
+	'mht'=>'html.gif',
+	'wav'=>'wav.gif',
+	'mp3'=>'mp3.gif',
+	'wma'=>'wma.gif',
+	'swf'=>'swf.gif',
+	'fla'=>'fla.gif',
+	'aac'=>'aac.gif',
+	'ace'=>'ace.gif',
+	'aiff'=>'aiff.gif',
+	'ape'=>'ape.gif',
+	'arj'=>'arj.gif',
+	'cab'=>'cab.gif',
+	'mpc'=>'mpc.gif',
+	'ogg'=>'ogg.gif',
+	'pdf'=>'pdf.gif',
+	'vqf'=>'vqf.gif',
+	'xml'=>'xml.gif',
+);
+if(thumb_able($file)){
+	if(file_exists($tempdir.$thash.'.lock')){
+		if(isset($extmap[getext($file)])){
+			redirect('images/'.$extmap[getext($file)]);
+		}else{
+			redirect('images/generating.gif');
+		}
+	}
+	if(!newer($rootdir.$file,$cachedir.$hash.'_'.$size.'.jpg')){
+		redirect($cacheurl.$hash.'_'.$size.'.jpg');
+	}
+	$job=array('base'=>$_GET['base'],'file'=>$file,'size'=>$size);
+	if(!file_exists($jobdir.$thash.'.job')){
+		file_put_contents($jobdir.$thash.'.job',serialize($job));
+	}
+	bg($browserurl.'bg_thumb.php');
+	if(file_exists($cachedir.$hash.'_'.$size.'.jpg')){
+		redirect($cacheurl.$hash.'_'.$size.'.jpg');
+	}elseif(isset($extmap[getext($file)])){
+		redirect('images/'.$extmap[getext($file)]);
+	}else{
+		redirect('images/generating.gif');
+	}
+}elseif(isset($extmap[getext($file)])){
+	redirect('images/'.$extmap[getext($file)]);
+}else{
+	redirect('images/noimage.gif');
+}
+?>

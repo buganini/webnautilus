@@ -1,0 +1,21 @@
+body{
+	background:transparent;
+}
+.item{
+	padding:5px;
+	width:120px;
+	height:120px;
+	margin:5px;
+	float:left;
+	text-align:center;
+/*	background:#abf;*/
+}
+.item a{
+	text-decoration:none;
+	font-size:10pt;
+	color:#555;
+}
+img{
+	z-index:10;
+	border:none;
+}

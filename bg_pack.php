@@ -1,0 +1,45 @@
+<?
+ignore_user_abort(true);
+set_time_limit(0);
+include('func.php');
+$rootdir=getbase($_GET['base']);
+header('Content-Type: text/plain');
+if(($dir=fixdirpath(safepath($rootdir,$_GET['dir'])))===false){
+	logger('full.');
+	die();
+}
+$hash=mkhash($rootdir.$dir);
+$thash=$_GET['base'].'-'.$hash;
+$hash=$_GET['base'].'/'.$hash;
+$path=rtrim($rootdir.$dir,'/');
+if(!ufile_exists($cachedir.$_GET['base'])){
+	mkdir($cachedir.$_GET['base']);
+}
+$apath=array();
+$pos=0;
+for($i=0;$i<mb_strlen($path,'UTF-8');$i++){
+	$c=mb_substr($path,$i,1,'UTF-8');
+	if($c=='/'){
+		++$pos;
+	}else{
+		$apath[$pos].=$c;
+	}
+}
+$bdir=array_pop($apath);
+$zfile=$hash.'.'.$bdir.'.zip';
+if((!file_exists($lockdir.$thash.'.lock'))){
+	touch($lockdir.$thash.'.lock');
+	if(newer($rootdir.$dir,$cachedir.$zfile)){
+		if(ufile_exists($cachedir.$zfile)){
+			uunlink($cachedir.$zfile);
+		}
+		for($i=0;$i<count($apath);$i++){
+			chdir(r($apath[$i]));
+		}
+		$cmd=$sevenzip.' a -tzip -mx=0 -w'.$tempdir.' -scsWIN '.escapeshellarg(r($cachedir.$zfile)).' '.escapeshellarg(r($bdir));
+		exe($cmd);
+		chdir($sysroot);
+	}
+	unlink($lockdir.$thash.'.lock');
+}
+?>
