@@ -36,12 +36,6 @@ set_timezone('Asia/Taipei');
 if(!function_exists('shm_attach')){
 	include('shm.php');
 }
-set_magic_quotes_runtime(0);
-if(get_magic_quotes_gpc()==1){
-	foreach($_GET as $key => $val){
-		$_GET[$key]=stripslashes($_GET[$key]);
-	}
-}
 
 mb_internal_encoding($charset);
 
@@ -316,10 +310,6 @@ function redirect($s){
 
 function dirsize($d){
 	if(is_dir($d)){
-			//for windows
-			$fsobj = new COM('Scripting.FileSystemObject');
-			$file = $fsobj->GetFolder(realpath($d));
-			return $file->Size;
 	}else{
 		return filesize($d);
 	}
