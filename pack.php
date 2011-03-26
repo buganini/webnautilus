@@ -1,4 +1,4 @@
-<?
+<?php
 ignore_user_abort(true);
 include('func.php');
 
@@ -39,12 +39,12 @@ body{
 	background:transparent;
 }
 </style>
-<!-- <?echo $thash;?> -->
+<!-- <?php echo $thash;?> -->
 </head>
 <body>
 資料壓縮中，請稍後<a href="javascript:document.location.reload(true);">再試</a>。
 </body>
 </html>
-<?
+<?php
 }
 ?>

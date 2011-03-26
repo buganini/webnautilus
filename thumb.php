@@ -1,4 +1,4 @@
-<?
+<?php
 ignore_user_abort(true);
 include('func.php');
 

@@ -1,4 +1,4 @@
-<?
+<?php
 $browserurl='http://www.gisedu.geog.ntu.edu.tw/gisedubrowser/';
 $shmid=1085;
 $concurrency=2;

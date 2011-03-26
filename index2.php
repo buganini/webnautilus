@@ -10,7 +10,7 @@ border: solid 1px #ccc;
 </head>
 <body>
 <table width="100%">
-<tr><th>中心學校名稱</th><th>模組名稱</th><th>檔案</th></tr><?
+<tr><th>中心學校名稱</th><th>模組名稱</th><th>檔案</th></tr><?php 
 include('func.php');
 
 function renderdir($rootdir,$dir){

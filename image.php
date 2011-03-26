@@ -1,4 +1,4 @@
-<?
+<?php
 include('func.php');
 $rootdir=getbase($_GET['base']);
 if(($file=safepath($rootdir,$_GET['file']))===false){
@@ -38,17 +38,17 @@ function freezoom(o){
 }
 </script>
 </head>
-<body><!-- <?echo $hash;?> -->
-<div style="font-size:10pt;"><?	echo getbasename($_GET['base']).$file;?></div>
-<?
+<body><!-- <?php echo $hash;?> -->
+<div style="font-size:10pt;"><?php echo getbasename($_GET['base']).$file;?></div>
+<?php
 if(isspecimage($file)){
 ?>
-抱歉，您的瀏覽器無法直接開啟這種格式的圖檔，麻煩<a href="<?echo urlenc($rootdir.$file);?>">直接下載</a>。
-<?
+抱歉，您的瀏覽器無法直接開啟這種格式的圖檔，麻煩<a href="<?php echo urlenc($rootdir.$file);?>">直接下載</a>。
+<?php
 }else{
 ?>
-<img onload="autozoom(this);" onclick="freezoom(this);" style="display:block; margin:auto; cursor:pointer;" src="<?echo urlenc($rootdir.$file);?>" style="margin:auto;" title="<?echo basename($_GET['file']);?>" />
-<?
+<img onload="autozoom(this);" onclick="freezoom(this);" style="display:block; margin:auto; cursor:pointer;" src="<?php echo urlenc($rootdir.$file);?>" style="margin:auto;" title="<?php echo basename($_GET['file']);?>" />
+<?php
 }
 ?>
 </body>

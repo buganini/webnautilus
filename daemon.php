@@ -1,4 +1,4 @@
-<?
+<?php
 exit;
 #XXX not unicode-safe
 ignore_user_abort(true);
