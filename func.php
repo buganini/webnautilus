@@ -25,9 +25,7 @@ $DEFAULT['thumb_size']='80x60';
 #"C:/OpenOffice.org/program/soffice.exe" -headless -accept="socket,host=localhost,port=2002;urp;"
 $base=array(
 	#'basename'=>array('title','relative path',archive);
-	'Module'=>array('教學模組','../module/ntu/95/',true),
-	'Mapresource'=>array('地圖資源','../result/96/',true),
-	'competition3th'=>array('第三屆全國比賽','../result/96/',true),
+	'CHOPS'=>array('CHOPS','/home/www/picture/big5/',true),
 );
 
 #filename in this list will not display, in lower case
