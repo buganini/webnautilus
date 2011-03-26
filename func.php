@@ -4,13 +4,13 @@ $CFG['cachedir']='/home/www/picture/cache/';
 $CFG['cacheurl']='/picture/cache/';
 $CFG['tempdir']='/home/www/picture/temp/';
 $CFG['lockdir']='/home/www/picture/lock/';
-$CFG['$mencoder']='C:/mplayer/mencoder.exe';
-$CFG['$mplayer']='C:/mplayer/mplayer.exe';
-$CFG['$yamdi']='C:/yamdi.exe';
-$CFG['$ffmpeg']='C:/ffmpeg.exe';
+$CFG['$mencoder']='/usr/local/bin/mencoder';
+$CFG['$mplayer']='/usr/local/bin/mplayer';
+$CFG['$yamdi']='/usr/local/bin/yamdi';
+$CFG['$ffmpeg']='/usr/local/bin/ffmpeg';
 $CFG['imagemagick_convert']='/usr/local/bin/convert';
 $CFG['$imagemagick_identify']='/usr/local/bin/identify';
-$CFG['$sevenzip']='C:/7-Zip/7z.exe';
+$CFG['$sevenzip']='/usr/local/bin/7zip.exe';
 $CFG['$unoconv']='C:/OpenOffice.org/program/python-core-2.3.4/bin/python.exe C:/unoconv';
 $CFG['$ghostscript']='C:/gs/gs8.61/bin/gswin32c.exe';
 $CFG['$firefox']='C:/Firefox/firefox.exe';
@@ -142,14 +142,13 @@ function fixdirpath($p){
 }
 
 function urlenc($p){
-	$p=q($p);
+	$p=r($p);
 	$a=explode('/',$p);
 	foreach($a as &$v){
 		$v=rawurlencode($v);
 		unset($v);
 	}
 	$p=implode('/',$a);
-	$p=r($p);
 	return $p;
 }
 
