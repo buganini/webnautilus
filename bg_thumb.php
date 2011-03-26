@@ -8,16 +8,19 @@ $gmw->addServer();
 $gmw->addFunction("webnautilus","doThumb");
 
 while($gmw->work()){
-	$load=sys_getloadavg();
-	if($load[0]>80){
-		sleep(rand(5,20));
+	while(1){
+		$load=sys_getloadavg();
+		if($load[0]>5){
+			sleep(rand(5,20));
+		}else{
+			break;
+		}
 	}
 }
 
 function doThumb($job){
 	global $CFG;
 	$job=$job->workload();
-	echo $job."\n";
 	$job=unserialize($job);
 	$rootdir=getbase($job['base']);
 	$file=$job['file'];
