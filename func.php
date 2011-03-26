@@ -1,9 +1,10 @@
 <?php
+$CFG['url']='http://www.chops.ntct.edu.tw/picture/';
 $gcpurl='/jscss/gcp';		#google code prettifier
+$CFG['memcache']='localhost';
 $CFG['cachedir']='/home/www/picture/cache/';
 $CFG['cacheurl']='/picture/cache/';
 $CFG['tempdir']='/home/www/picture/temp/';
-$CFG['lockdir']='/home/www/picture/lock/';
 $CFG['$mencoder']='/usr/local/bin/mencoder';
 $CFG['$mplayer']='/usr/local/bin/mplayer';
 $CFG['$yamdi']='/usr/local/bin/yamdi';
@@ -12,7 +13,7 @@ $CFG['imagemagick_convert']='/usr/local/bin/convert';
 $CFG['$imagemagick_identify']='/usr/local/bin/identify';
 $CFG['$sevenzip']='/usr/local/bin/7zip.exe';
 $CFG['$unoconv']='C:/OpenOffice.org/program/python-core-2.3.4/bin/python.exe C:/unoconv';
-$CFG['$ghostscript']='C:/gs/gs8.61/bin/gswin32c.exe';
+$CFG['$ghostscript']='/usr/local/bin/gsc';
 $CFG['$firefox']='C:/Firefox/firefox.exe';
 $CFG['$ffprofile']='d:/ffprofile';
 $CFG['$ffdownload']='d:/ffdown/';
@@ -40,6 +41,30 @@ chdir($sysroot);
 
 function selfurl(){
 	return 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].$_SERVER['REQUEST_URI'];
+}
+
+function mylocked($t){
+	global $CFG;
+	$memcache = new Memcache;
+	$memcache->pconnect($CFG['memcache']);
+	if($memcache->get('webnautilus-'.$t)){
+		return true;
+	}
+	
+}
+
+function mylock($t){
+	global $CFG;
+	$memcache = new Memcache;
+	$memcache->pconnect($CFG['memcache']);
+	$memcache->set('webnautilus-'.$t,1);
+}
+
+function myunlock($t){ 
+	global $CFG;
+	$memcache = new Memcache;
+	$memcache->pconnect($CFG['memcache']);
+	$memcache->delete('webnautilus-'.$t);
 }
 
 function mkhash($f){
@@ -142,7 +167,6 @@ function fixdirpath($p){
 }
 
 function urlenc($p){
-	$p=r($p);
 	$a=explode('/',$p);
 	foreach($a as &$v){
 		$v=rawurlencode($v);

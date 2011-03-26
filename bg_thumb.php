@@ -30,7 +30,7 @@ function doThumb($job){
 
 	$size=$job['size'];
 
-	if(file_exists($CFG['lockdir'].$thash.'.lock')){
+	if(mylocked($thash)){
 		return;
 	}
 	if(!ufile_exists($CFG['cachedir'].$job['base'])){
@@ -38,7 +38,7 @@ function doThumb($job){
 	}
 	if(isvideo($file)){
 		if((newer($rootdir.$file,$CFG['cachedir'].$hash.'.flv') || newer($rootdir.$file,$CFG['cachedir'].$hash.'_L.jpg') || newer($rootdir.$file,$CFG['cachedir'].$hash.'_'.$size.'.jpg'))){
-			touch($CFG['lockdir'].$thash.'.lock');
+			mylock($thash);
 				if(!file_exists($CFG['cachedir'].$hash.'.flv')){
 					$cmd1=$CFG['mencoder'].' -vf scale=320:240 -ffourcc FLV1 -of lavf -lavfopts i_certify_that_my_video_stream_does_not_use_b_frames -ovc lavc -lavcopts vcodec=flv:vbitrate=200 -srate 22050 -oac lavc -lavcopts acodec=mp3:abitrate=56 '.escapeshellarg(r($rootdir.$file)).' -o '.escapeshellarg($CFG['tempdir'].$thash.'.flv');
 					exe($cmd1);
@@ -58,11 +58,11 @@ function doThumb($job){
 				}
 				$cmd4=$CFG['imagemagick_convert'].' -quality 70 -geometry '.$size.' '.escapeshellarg($CFG['cachedir'].$hash.'_L.jpg').' '.escapeshellarg($CFG['cachedir'].$hash.'_'.$size.'.jpg');
 				exe($cmd4);
-			unlink($CFG['lockdir'].$thash.'.lock');
+			myunlock($thash);
 		}
 	}elseif(isimage($file)){
 		if(newer($rootdir.$file,$CFG['cachedir'].$hash.'_'.$size.'.jpg')){
-			utouch($CFG['lockdir'].$thash.'.lock');
+			mylock($thash);
 				if((!ufile_exists($CFG['tempdir'].$thash.'.jpg')) && (!(ufile_exists($CFG['tempdir'].$thash.'-0.jpg')))){
 					$cmd=$CFG['imagemagick_convert'].' -quality 70 -geometry '.$size.' '.escapeshellarg(r($rootdir.$file)).' '.escapeshellarg($CFG['tempdir'].$thash.'.jpg');
 					exe($cmd);
@@ -78,11 +78,11 @@ function doThumb($job){
 						++$i;
 					}
 				}
-			uunlink($CFG['lockdir'].$thash.'.lock');
+			myunlock($thash);
 		}
 	}elseif(isdocument($file)){
 		if(newer($rootdir.$file,$CFG['cachedir'].$hash.'_'.$size.'.jpg')){
-			utouch($CFG['lockdir'].$thash.'.lock');
+			mylock($thash);
 				if(!ufile_exists($CFG['tempdir'].$thash.'.bmp')){
 					$tfile=$CFG['tempdir'].$thash.'.'.getext($file);
 					ucopy($rootdir.$file,$tfile);
@@ -106,12 +106,11 @@ function doThumb($job){
 					ucopy($CFG['tempdir'].$thash.'.jpg',$CFG['cachedir'].$hash.'_'.$size.'.jpg');
 					uunlink($CFG['tempdir'].$thash.'.jpg');
 				}
-
-			uunlink($CFG['lockdir'].$thash.'.lock');
+			myunlock($thash);
 		}
 	}elseif(isweb($file)){
 		if(newer($rootdir.$file,$CFG['cachedir'].$hash.'_'.$size.'.jpg')){
-			utouch($CFG['lockdir'].$thash.'.lock');
+			mylock($thash);
 				if(!ufile_exists($CFG['tempdir'].$thash.'.png')){
 					while(ufile_exists($CFG['tempdir'].'firefox.lock')){
 						sleep(rand(5,15));
@@ -139,7 +138,7 @@ function doThumb($job){
 				$cmd=$imagemagick_convert.' -quality 70 -geometry '.$size.' '.escapeshellarg($CFG['tempdir'].$thash.'.png').' '.escapeshellarg($CFG['cachedir'].$hash.'_'.$size.'.jpg');
 				exe($cmd);
 				rmtry($CFG['tempdir'].$thash.'.png');
-			uunlink($CFG['lockdir'].$thash.'.lock');
+			myunlock($thash);
 		}
 	}
 }
