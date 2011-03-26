@@ -1,31 +1,26 @@
 <?php
-$browserurl='http://www.gisedu.geog.ntu.edu.tw/gisedubrowser/';
-$shmid=1085;
-$concurrency=2;
 $gcpurl='/jscss/gcp';		#google code prettifier
-$cachedir='D:/cache/';
-$cacheurl='cache/';
-$tempdir='D:/temp/data';
-$lockdir='D:/temp/lock';
-$jobdir='D:/temp/job';
-$mencoder='C:/mplayer/mencoder.exe';
-$mplayer='C:/mplayer/mplayer.exe';
-$yamdi='C:/yamdi.exe';
-$ffmpeg='C:/ffmpeg.exe';
-$imagemagick_convert='C:/ImageMagick/im_convert.exe';
-$imagemagick_identify='C:/ImageMagick/identify.exe';
-$sevenzip='C:/7-Zip/7z.exe';
-$unoconv='C:/OpenOffice.org/program/python-core-2.3.4/bin/python.exe C:/unoconv';
-$ghostscript='C:/gs/gs8.61/bin/gswin32c.exe';
-$firefox='C:/Firefox/firefox.exe';
-$ffprofile='d:/ffprofile';
-$ffdownload='d:/ffdown/';
-$charset='Big5';
+$CFG['cachedir']='/home/www/picture/cache/';
+$CFG['cacheurl']='/picture/cache/';
+$CFG['tempdir']='/home/www/picture/temp/';
+$CFG['lockdir']='/home/www/picture/lock/';
+$CFG['$mencoder']='C:/mplayer/mencoder.exe';
+$CFG['$mplayer']='C:/mplayer/mplayer.exe';
+$CFG['$yamdi']='C:/yamdi.exe';
+$CFG['$ffmpeg']='C:/ffmpeg.exe';
+$CFG['imagemagick_convert']='/usr/local/bin/convert';
+$CFG['$imagemagick_identify']='/usr/local/bin/identify';
+$CFG['$sevenzip']='C:/7-Zip/7z.exe';
+$CFG['$unoconv']='C:/OpenOffice.org/program/python-core-2.3.4/bin/python.exe C:/unoconv';
+$CFG['$ghostscript']='C:/gs/gs8.61/bin/gswin32c.exe';
+$CFG['$firefox']='C:/Firefox/firefox.exe';
+$CFG['$ffprofile']='d:/ffprofile';
+$CFG['$ffdownload']='d:/ffdown/';
 $DEFAULT['thumb_size']='80x60';
 #"C:/OpenOffice.org/program/soffice.exe" -headless -accept="socket,host=localhost,port=2002;urp;"
 $base=array(
 	#'basename'=>array('title','relative path',archive);
-	'CHOPS'=>array('CHOPS','/home/www/picture/big5/',true),
+	'CHOPS'=>array('CHOPS','CHOPS/',true,'zh_TW.Big5'),
 );
 
 #filename in this list will not display, in lower case
@@ -33,24 +28,15 @@ $ignore=array('thumbs.db','desktop.ini','readme.txt');
 
 set_timezone('Asia/Taipei');
 #---------------------------------------------------------------------------
-if(!function_exists('shm_attach')){
-	include('shm.php');
-}
-
-mb_internal_encoding($charset);
-
 $_now=time();
 
-if((!$daemon) && ($_now-(@file_get_contents($tempdir.'daemon.lock'))>600)){
-	#bg($browserurl.'daemon.php');
-}
-$browserurl=fixdirpath($browserurl);
-$gcpurl=fixdirpath($gcpurl);
-$cachedir=fixdirpath(urealpath($cachedir));
-$tempdir=fixdirpath(urealpath($tempdir));
-$lockdir=fixdirpath(urealpath($lockdir));
-$jobdir=fixdirpath(urealpath($jobdir));
-$cacheurl=fixdirpath($cacheurl);
+$CFG['gcpurl']=fixdirpath($CFG['gcpurl']);
+$CFG['cachedir']=fixdirpath(urealpath($CFG['cachedir']));
+$CFG['tempdir']=fixdirpath(urealpath($CFG['tempdir']));
+$CFG['lockdir']=fixdirpath(urealpath($CFG['lockdir']));
+$CFG['cacheurl']=fixdirpath($CFG['cacheurl']);
+$sysroot=fixdirpath(dirname(__FILE__));
+chdir($sysroot);
 
 function selfurl(){
 	return 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].$_SERVER['REQUEST_URI'];
@@ -66,15 +52,12 @@ function mkhash($f){
 function urealpath($p){
 	$p=realpath(r($p));
 	if($p===false) return false;
-	$p=upath($p);
-	return mb_convert_encoding($p,'UTF-8');
+	return upath(q($p));
 }
 
 function upath($p){
 	if($p===false) return false;
-#	$p=mb_convert_encoding($p,'UTF-8');
 	$p=str_replace('\\','/',$p);
-#	$p=mb_convert_encoding($p,mb_internal_encoding(),'UTF-8');
 	return $p;
 }
 
@@ -89,6 +72,10 @@ function safepath($root,$path){
 		return substr($path,$len);
 	}
 	return false;
+}
+
+function q($s){
+	return mb_convert_encoding($s,'UTF-8');
 }
 
 function r($s){
@@ -112,13 +99,14 @@ function uopendir($d){
 }
 
 function ureaddir($dp){
-	return mb_convert_encoding(readdir($dp),'UTF-8',mb_internal_encoding());
+	return q(readdir($dp));
 }
 
 function uscandir($d){
 	$l=scandir(r($d));
 	foreach($l as &$v){
-		$v=mb_convert_encoding($v,'UTF-8');
+		$v=q($v);
+		unset($v);
 	}
 	return $l;
 }
@@ -149,21 +137,19 @@ function ucopy($f,$g){
 
 function fixdirpath($p){
 	if($p===false) return false;
-#	$p=mb_convert_encoding($p,'UTF-8');
 	$p=rtrim($p,'/\\').'/';
-#	$p=mb_convert_encoding($p,mb_internal_encoding(),'UTF-8');
 	return $p;
 }
 
 function urlenc($p){
-#	$p=mb_convert_encoding($p,'UTF-8');
+	$p=q($p);
 	$a=explode('/',$p);
 	foreach($a as &$v){
 		$v=rawurlencode($v);
 		unset($v);
 	}
 	$p=implode('/',$a);
-#	$p=mb_convert_encoding($p,mb_internal_encoding(),'UTF-8');
+	$p=r($p);
 	return $p;
 }
 
@@ -192,21 +178,6 @@ function ftime($s){
 	return $d.'d'.$h.'h'.$m.'m'.$s.'s';
 }
 
-function bg($url){
-/*
-#old method, take longer latency
-	$c=curl_init();
-	curl_setopt($c, CURLOPT_URL,$url);
-	curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($c, CURLOPT_TIMEOUT, 1);
-	$ret=curl_exec($c);
-	curl_close($c);
-	return $ret;
-*/
-	$ctx = stream_context_create(array('http' => array('timeout' => 0.01))); 
-	return file_get_contents($url, 0, $ctx);
-}
-
 function rmtry($f){
 	if(ufile_exists($f)){
 		@uunlink($f);
@@ -225,8 +196,12 @@ function getbasename($s){
 function getbase($s){
 	global $base;
 	if(isset($base[$s])){
+		setlocale(LC_ALL,$base[$s][3]);
+		$t=explode('.',$base[$s][3]);
+		mb_internal_encoding($t[1]);
 		return fixdirpath($base[$s][1]);
 	}else{
+		mb_internal_encoding('UTF-8');
 		return false;
 	}
 }
@@ -259,7 +234,6 @@ function dehtml($s){
 	return $s;
 }
 
-$sysroot=fixdirpath(dirname(__FILE__));
 
 function isvideo($file){
 	if(in_array(getext($file),array('mpg','mpeg','avi','rm','rmvb','mov','wmv','mod','asf','m1v','mp2','mpe','mpa','flv','3pg','vob'))){
@@ -317,9 +291,9 @@ function dirsize($d){
 
 /* old method, slow and the cache dont check if info is renew
 function dirsize($d){
-	global $base,$cachedir;
+	global $base,$CFG['cachedir'];
 	if(is_dir($d)){
-		$sfile=$cachedir.$_GET['base'].'/'.sha1($d).'.siz';
+		$sfile=$CFG['cachedir'].$_GET['base'].'/'.sha1($d).'.siz';
 		if($base[$_GET['base']][2] && ($ret=@file_get_contents($sfile))!==false){
 			return $ret;
 		}else{
@@ -397,7 +371,7 @@ function exe($c){
 
 function logger($s){
 	global $sysroot;
-	@file_put_contents($sysroot.'gisedubrowser.log',$s."\r\n",FILE_APPEND);
+	file_put_contents($sysroot.'webnautilus.log',$s."\r\n",FILE_APPEND);
 	return $s;
 }
 
@@ -443,10 +417,10 @@ function basedir($dir){
 }
 
 function tryindex($fs,$dir){
-	global $cachedir;
+	global $CFG;
 	$bdir=basedir($dir);
 	$index_file='';
-	$ifile=$cachedir.$_GET['base'].'/'.sha1($dir).'.idx';
+	$ifile=$CFG['cachedir'].$_GET['base'].'/'.sha1($dir).'.idx';
 	if(isarchive() && ($index_file=@file_get_contents($ifile))!==false){
 		return $index_file;
 	}else{
@@ -477,8 +451,8 @@ function tryindex($fs,$dir){
 			}
 		}
 		if(isarchive()){
-			if(!ufile_exists($cachedir.$_GET['base'])){
-				umkdir($cachedir.$_GET['base']);
+			if(!ufile_exists($CFG['cachedir'].$_GET['base'])){
+				umkdir($CFG['cachedir'].$_GET['base']);
 			}
 			file_put_contents($ifile,$index_file);
 		}

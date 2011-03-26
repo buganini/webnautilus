@@ -50,23 +50,16 @@ $extmap=array(
 	'xml'=>'xml.gif',
 );
 if(thumb_able($file)){
-	if(file_exists($tempdir.$thash.'.lock')){
-		if(isset($extmap[getext($file)])){
-			redirect('images/'.$extmap[getext($file)]);
-		}else{
-			redirect('images/generating.gif');
-		}
+	if(!newer($rootdir.$file,$CFG['cachedir'].$hash.'_'.$size.'.jpg')){
+		redirect($CFG['cacheurl'].$hash.'_'.$size.'.jpg');
 	}
-	if(!newer($rootdir.$file,$cachedir.$hash.'_'.$size.'.jpg')){
-		redirect($cacheurl.$hash.'_'.$size.'.jpg');
-	}
+
 	$job=array('base'=>$_GET['base'],'file'=>$file,'size'=>$size);
-	if(!file_exists($jobdir.$thash.'.job')){
-		file_put_contents($jobdir.$thash.'.job',serialize($job));
-	}
-	bg($browserurl.'bg_thumb.php');
-	if(file_exists($cachedir.$hash.'_'.$size.'.jpg')){
-		redirect($cacheurl.$hash.'_'.$size.'.jpg');
+	$gmc=new Gearmanclient();
+	$gmc->addServer();
+	$gmc->do("webnautilus",serialize($job));
+	if(file_exists($CFG['cachedir'].$hash.'_'.$size.'.jpg')){
+		redirect($CFG['cacheurl'].$hash.'_'.$size.'.jpg');
 	}elseif(isset($extmap[getext($file)])){
 		redirect('images/'.$extmap[getext($file)]);
 	}else{

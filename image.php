@@ -47,7 +47,7 @@ if(isspecimage($file)){
 <?php
 }else{
 ?>
-<img onload="autozoom(this);" onclick="freezoom(this);" style="display:block; margin:auto; cursor:pointer;" src="<?php echo urlenc($rootdir.$file);?>" style="margin:auto;" title="<?php echo basename($_GET['file']);?>" />
+<img onload="autozoom(this);" onclick="freezoom(this);" style="display:block; margin:auto; cursor:pointer;" src="<?php echo urlenc(r($rootdir.$file));?>" style="margin:auto;" title="<?php echo basename($_GET['file']);?>" />
 <?php
 }
 ?>

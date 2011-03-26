@@ -20,7 +20,7 @@ function renderdir($rootdir,$dir){
 	$r['dir']=$dir;
 	$list=(array)uscandir($rootdir.$dir);
 	if($list===false){
-		redirect('/gisedubrowser/index.php?base='.$_GET['base']);
+		redirect('index.php?base='.$_GET['base']);
 	}
 	foreach($list as $e)
 	{
@@ -93,7 +93,7 @@ $rootdir=getbase($_GET['base']);
 if($rootdir){
 	$t=renderdir($rootdir,$_GET['dir']);
 	echo '<div style="font-size:10pt;">';
-	echo getbasename($_GET['base']).'/'.$t['dir'];
+	echo getbasename($_GET['base']).$t['dir'];
 	echo '</div>';
 	
 	if(!empty($t['index'])){
