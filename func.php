@@ -39,6 +39,18 @@ $CFG['cacheurl']=fixdirpath($CFG['cacheurl']);
 $sysroot=fixdirpath(dirname(__FILE__));
 chdir($sysroot);
 
+function mklink($base,$sub){
+	$r=array();
+	$t='';
+	$a=explode('/',ltrim($sub,'/'));
+	$r[]='<a href="index.php?base='.$base.'">'.$base.'</a>';
+	foreach($a as $s){
+		$t.='/'.$s;
+		$r[]='<a href="index.php?base='.$base.'&dir='.urlencode($t).'">'.$s.'</a>';
+	}
+	return '<span id="link">'.implode('/',$r).'</span>';
+}
+
 function selfurl(){
 	return 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].$_SERVER['REQUEST_URI'];
 }

@@ -95,7 +95,7 @@ $rootdir=getbase($_GET['base']);
 if($rootdir){
 	$t=renderdir($rootdir,$_GET['dir']);
 	echo '<div style="font-size:10pt;">';
-	echo getbasename($_GET['base']).$t['dir'];
+	echo mklink(getbasename($_GET['base']),$t['dir']);
 	echo '</div>';
 	
 	if(!empty($t['index'])){
