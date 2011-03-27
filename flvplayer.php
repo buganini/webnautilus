@@ -19,6 +19,7 @@ if(ufile_exists($CFG['cachedir'].$hash.'.mp4')){
 href="<?php echo $CFG['browserurl'].$CFG['cacheurl'].$hash.'.mp4';?>"
 style="display:block;width:520px;height:330px"
 id="player">
+<img src="<?php echo $CFG['browserurl'].$CFG['cacheurl'].$hash.'_L.jpg';?>" style="width:520px; height:330px;" />
 </a>
 <script type="text/javascript">
 	flowplayer("player", "flowplayer/flowplayer-3.2.7.swf");
