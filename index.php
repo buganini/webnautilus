@@ -65,6 +65,8 @@ function renderdir($rootdir,$dir){
 			$ahref='<a href="image.php?base='.$_GET['base'].'&file='.urlencode($dir.$e).'">';
 		}elseif(isweb($e)){
 			$ahref='<a href="'.urlenc($rootdir.$dir.$e).'">';
+		}elseif(isdocument($e)){
+			$ahref='<a href="document.php?base='.$_GET['base'].'&file='.urlencode($dir.$e).'">';
 		}elseif(iscode($e)){
 			$ahref='<a href="code.php?base='.$_GET['base'].'&file='.urlencode($dir.$e).'">';
 		}else{
