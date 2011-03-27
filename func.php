@@ -42,12 +42,14 @@ chdir($sysroot);
 function mklink($base,$sub){
 	$r=array();
 	$t='';
-	$a=explode('/',ltrim($sub,'/'));
+	$a=explode('/',trim($sub,'/'));
 	$r[]='<a href="index.php?base='.$base.'">'.$base.'</a>';
-	foreach($a as $s){
-		$t.='/'.$s;
-		$r[]='<a href="index.php?base='.$base.'&dir='.urlencode($t).'">'.$s.'</a>';
+	$l=count($a)-1;
+	for($i=0;$i<$l;++$i){
+		$t.='/'.$a[$i];
+		$r[]='<a href="index.php?base='.$base.'&dir='.urlencode($t).'">'.$a[$i].'</a>';
 	}
+	$r[]='<a>'.$a[$l].'</a>';
 	return '<span id="link">'.implode('/',$r).'</span>';
 }
 
