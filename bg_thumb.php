@@ -37,23 +37,25 @@ function doThumb($job){
 		umkdir($CFG['cachedir'].$job['base']);
 	}
 	if(isvideo($file)){
-		if((newer($rootdir.$file,$CFG['cachedir'].$hash.'.flv') || newer($rootdir.$file,$CFG['cachedir'].$hash.'_L.jpg') || newer($rootdir.$file,$CFG['cachedir'].$hash.'_'.$size.'.jpg'))){
+		if((newer($rootdir.$file,$CFG['cachedir'].$hash.'.mp4') || newer($rootdir.$file,$CFG['cachedir'].$hash.'_L.jpg') || newer($rootdir.$file,$CFG['cachedir'].$hash.'_'.$size.'.jpg'))){
 			mylock($thash);
-				if(!file_exists($CFG['cachedir'].$hash.'.flv')){
-					$cmd1=$CFG['mencoder'].' -vf scale=320:240 -ffourcc FLV1 -of lavf -lavfopts i_certify_that_my_video_stream_does_not_use_b_frames -ovc lavc -lavcopts vcodec=flv:vbitrate=200 -srate 22050 -oac lavc -lavcopts acodec=mp3:abitrate=56 '.escapeshellarg(r($rootdir.$file)).' -o '.escapeshellarg($CFG['tempdir'].$thash.'.flv');
-					exe($cmd1);
-					rmtry($CFG['cachedir'].$hash.'.flv');
+				if(!file_exists($CFG['cachedir'].$hash.'.mp4')){
+#					$cmd1=$CFG['mencoder'].' '.escapeshellarg(r($rootdir.$file)).' -of lavf -lavfopts format=mp4 -sws 9 -af volnorm -srate 48000 -channels 2 -vf-add scale=480:272,harddup -oac faac -faacopts br=96:mpeg=4:object=2:raw -ovc x264 -ffourcc H264 -x264encopts crf=22:threads=2:level_idc=30:bframes=3:frameref=2:global_header:partitions=all -o '.escapeshellarg($CFG['tempdir'].$thash.'.mp4');
+#					$cmd1=$CFG['ffmpeg'].' -y -i '.escapeshellarg(r($rootdir.$file)).' -acodec libfaac -ar 44100 -ab 96k -vcodec libx264 -level 41 -crf 25 -bufsize 20000k -maxrate 25000k -g 250 -r 20 -s 1280x720 '.escapeshellarg($CFG['tempdir'].$thash.'.mp4');
+#					echo $cmd1;
+#					exe($cmd1);
+					rmtry($CFG['cachedir'].$hash.'.mp4');
 					rmtry($CFG['cachedir'].$hash.'_L.jpg');
 					rmtry($CFG['cachedir'].$hash.'.jpg');
-					$cmd2=$CFG['yamdi'].' -i '.escapeshellarg($CFG['tempdir'].$thash.'.flv').' -o '.escapeshellarg($CFG['cachedir'].$hash.'.flv');
+					$cmd2=$CFG['yamdi'].' -i '.escapeshellarg($CFG['tempdir'].$thash.'.mp4').' -o '.escapeshellarg($CFG['cachedir'].$hash.'.mp4');
 					exe($cmd2);
-					uunlink($CFG['tempdir'].$thash.'.flv');
+					uunlink($CFG['tempdir'].$thash.'.mp4');
 				}
 				if(!file_exists($CFG['cachedir'].$hash.'_L.jpg')){
-					$info=exe($CFG['mplayer'].' -identify -nosound -vc dummy -vo null '.escapeshellarg($CFG['cachedir'].$hash.'.flv'));
+					$info=exe($CFG['mplayer'].' -identify -nosound -vc dummy -vo null '.escapeshellarg($CFG['cachedir'].$hash.'.mp4'));
 					preg_match('/ID_LENGTH=([0-9\\.]+)/s',$info,$len);
 					$len=$len[1];
-					$cmd3=$ffmpeg.' -i '.escapeshellarg($CFG['cachedir'].$hash.'.flv').' -y -f image2 -ss '.($len/2).' -t 0.001 -s 400x326 '.escapeshellarg($CFG['cachedir'].$hash.'_L.jpg');
+					$cmd3=$CFG['ffmpeg'].' -i '.escapeshellarg($CFG['cachedir'].$hash.'.mp4').' -y -f image2 -ss '.($len/2).' -t 0.001 -s 400x326 '.escapeshellarg($CFG['cachedir'].$hash.'_L.jpg');
 					exe($cmd3);
 				}
 				$cmd4=$CFG['imagemagick_convert'].' -quality 70 -geometry '.$size.' '.escapeshellarg($CFG['cachedir'].$hash.'_L.jpg').' '.escapeshellarg($CFG['cachedir'].$hash.'_'.$size.'.jpg');
