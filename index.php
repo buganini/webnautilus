@@ -103,7 +103,7 @@ if($rootdir){
 	}
 
 	if(strlen(rtrim($t['dir'],'/\\'))>0){
-		echo mkitem('[上一層]','Parent','Parent','<a href="javascript:history.back();">','images/pdir.gif',null,null);
+#		echo mkitem('[上一層]','Parent','Parent','<a href="javascript:history.back();">','images/pdir.gif',null,null);
 #		echo mkitem('[上一層]','Parent','Parent','<a href="index.php?base='.$_GET['base'].'&dir='.urlencode($dir.'..').'">','images/pdir.gif',null,null);
 	}
 
