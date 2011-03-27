@@ -5,18 +5,18 @@ $CFG['memcache']='localhost';
 $CFG['cachedir']='/home/www/picture/cache/';
 $CFG['cacheurl']='/picture/cache/';
 $CFG['tempdir']='/home/www/picture/temp/';
-$CFG['$mencoder']='/usr/local/bin/mencoder';
-$CFG['$mplayer']='/usr/local/bin/mplayer';
-$CFG['$yamdi']='/usr/local/bin/yamdi';
-$CFG['$ffmpeg']='/usr/local/bin/ffmpeg';
+$CFG['mencoder']='/usr/local/bin/mencoder';
+$CFG['mplayer']='/usr/local/bin/mplayer';
+$CFG['yamdi']='/usr/local/bin/yamdi';
+$CFG['ffmpeg']='/usr/local/bin/ffmpeg';
 $CFG['imagemagick_convert']='/usr/local/bin/convert';
-$CFG['$imagemagick_identify']='/usr/local/bin/identify';
-$CFG['$sevenzip']='/usr/local/bin/7zip.exe';
-$CFG['$unoconv']='C:/OpenOffice.org/program/python-core-2.3.4/bin/python.exe C:/unoconv';
-$CFG['$ghostscript']='/usr/local/bin/gsc';
-$CFG['$firefox']='C:/Firefox/firefox.exe';
-$CFG['$ffprofile']='d:/ffprofile';
-$CFG['$ffdownload']='d:/ffdown/';
+$CFG['imagemagick_identify']='/usr/local/bin/identify';
+$CFG['sevenzip']='/usr/local/bin/7zip.exe';
+$CFG['unoconv']='/usr/local/bin/python /home/www/picture/unoconv/unoconv';
+$CFG['ghostscript']='/usr/local/bin/gsc';
+$CFG['firefox']='C:/Firefox/firefox.exe';
+$CFG['ffprofile']='d:/ffprofile';
+$CFG['ffdownload']='d:/ffdown/';
 $DEFAULT['thumb_size']='80x60';
 #"C:/OpenOffice.org/program/soffice.exe" -headless -accept="socket,host=localhost,port=2002;urp;"
 $base=array(
@@ -259,7 +259,7 @@ function dehtml($s){
 
 
 function isvideo($file){
-	if(in_array(getext($file),array('mpg','mpeg','avi','rm','rmvb','mov','wmv','mod','asf','m1v','mp2','mpe','mpa','flv','3pg','vob'))){
+	if(in_array(getext($file),array('mpg','mpeg','avi','rm','rmvb','mov','wmv','mod','asf','m1v','mp2','mpe','mpa','flv','3pg','vob','mp4'))){
 		return true;
 	}
 	return false;
