@@ -39,7 +39,7 @@ function freezoom(o){
 </script>
 </head>
 <body><!-- <?php echo $hash;?> -->
-<div style="font-size:10pt;"><?php echo getbasename($_GET['base']).$file;?></div>
+<div style="font-size:10pt;"><?php echo mklink(getbasename($_GET['base']),$file);?></div>
 <?php
 if(isspecimage($file)){
 ?>

@@ -13,13 +13,13 @@ if(ufile_exists($CFG['cachedir'].$hash.'.mp4')){
 <script type="text/javascript" src="flowplayer/example/flowplayer-3.2.6.min.js"></script>
 </head>
 <body><!-- <?php echo $hash;?> -->
-<div style="font-size:10pt;"><?php echo getbasename($_GET['base']).$file;?></div>
+<div style="font-size:10pt;"><?php echo mklink(getbasename($_GET['base']),$file);?></div>
 <center>
 <a
 href="<?php echo $CFG['browserurl'].$CFG['cacheurl'].$hash.'.mp4';?>"
-style="display:block;width:520px;height:330px"
+style="display:block;width:640px;height:480px"
 id="player">
-<img src="<?php echo $CFG['browserurl'].$CFG['cacheurl'].$hash.'_L.jpg';?>" style="width:520px; height:330px;" />
+<img src="<?php echo $CFG['browserurl'].$CFG['cacheurl'].$hash.'_L.jpg';?>" style="width:640px; height:480px;" />
 </a>
 <script type="text/javascript">
 	flowplayer("player", "flowplayer/flowplayer-3.2.7.swf");
