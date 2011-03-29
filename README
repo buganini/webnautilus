@@ -2,6 +2,8 @@ Notice:
 	temp and cache dir should be in the same partition so that files can be moved fast.
 
 Dependency:
+	gearman
+	memcache
 	mplayer
 	mencoder (component of mplayer)
 	ffmpeg
@@ -9,11 +11,11 @@ Dependency:
 	ImageMagick
 	7-zip
 	flowplayer
-	OpenOffice.org
-	unoconv 0.3 (can be run by python bundled in OOo)
+	LibreOffice or OpenOffice.org
+	unoconv (can be run by python bundled in OOo)
 	ghostscript
 	firefox 2+
 	Pearl Crescent Page Saver (Basic)
 
 Other:
-	"C:/OpenOffice.org/program/soffice.exe" -headless -accept="socket,host=localhost,port=2002;urp;"
+	"C:/OpenOffice.org/program/soffice.exe" -headless -norestore -accept="socket,host=localhost,port=2002;urp;"
