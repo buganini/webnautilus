@@ -3,7 +3,7 @@ $CFG['url']='http://www.chops.ntct.edu.tw/picture/';
 $gcpurl='/jscss/gcp';		#google code prettifier
 $CFG['memcache']='localhost';
 $CFG['cachedir']='/home/www/picture/cache/';
-$CFG['cacheurl']='/picture/cache/';
+$CFG['cacheurl']='cache/';
 $CFG['tempdir']='/home/www/picture/temp/';
 $CFG['mencoder']='/usr/local/bin/mencoder';
 $CFG['mplayer']='/usr/local/bin/mplayer';
@@ -21,7 +21,7 @@ $DEFAULT['thumb_size']='80x60';
 #"C:/OpenOffice.org/program/soffice.exe" -headless -accept="socket,host=localhost,port=2002;urp;"
 $base=array(
 	#'basename'=>array('title','relative path',archive);
-	'CHOPS'=>array('CHOPS','CHOPS/',true,'zh_TW.Big5'),
+	'CHOPS'=>array('CHOPS','/mnt/picture/',true,'zh_TW.Big5'),
 );
 
 #filename in this list will not display, in lower case
