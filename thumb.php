@@ -51,23 +51,19 @@ $extmap=array(
 );
 if(thumb_able($file)){
 	if(!newer($rootdir.$file,$CFG['cachedir'].$hash.'_'.$size.'.jpg')){
-		redirect($CFG['cacheurl'].$hash.'_'.$size.'.jpg');
+		echo ($CFG['cacheurl'].$hash.'_'.$size.'.jpg');
+		exit;
 	}
 
 	$job=array('base'=>$_GET['base'],'file'=>$file,'size'=>$size);
 	$gmc=new Gearmanclient();
 	$gmc->addServer();
-	$gmc->do("webnautilus",serialize($job));
-	if(file_exists($CFG['cachedir'].$hash.'_'.$size.'.jpg')){
-		redirect($CFG['cacheurl'].$hash.'_'.$size.'.jpg');
-	}elseif(isset($extmap[getext($file)])){
-		redirect('images/'.$extmap[getext($file)]);
-	}else{
-		redirect('images/generating.gif');
-	}
+	$gmc->doBackground("webnautilus",serialize($job));
+	header('HTTP/1.1 503');
+	exit;	
 }elseif(isset($extmap[getext($file)])){
-	redirect('images/'.$extmap[getext($file)]);
+	echo ('images/'.$extmap[getext($file)]);
 }else{
-	redirect('images/noimage.gif');
+	echo ('images/noimage.gif');
 }
 ?>

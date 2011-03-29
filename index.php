@@ -1,6 +1,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 <link href="common.css" rel="stylesheet" type="text/css" />
 </head>
 <body><?php
@@ -82,8 +83,12 @@ function renderdir($rootdir,$dir){
 function mkitem($text,$alt,$title,$ahref,$img,$today,$pack){
 	$ret='';
 	$ret.='<div class="item">'.($today?'<img src="images/new.gif" style="position:absolute; z-index:20;" alt="new" />':'')."\n";
-	$ret.='<div style="margin:auto;">'.$ahref."\n";
-	$ret.='<img style="background:url(\'images/working.gif\') center no-repeat;width:80px;height:60px;" alt="'.$alt.'" title="'.$title.'" src="'.$img.'" />'."\n";
+	$ret.='<div style="width:80px;height:60px;margin:auto;">'.$ahref."\n";
+	if(substr($img,0,9)=='thumb.php'){
+		$ret.='<img style="alt="'.$alt.'" title="'.$title.'" src="images/working.gif" realsrc="'.$img.'" />'."\n";
+	}else{
+		$ret.='<img style="alt="'.$alt.'" title="'.$title.'" src="'.$img.'" />'."\n";
+	}
 	$ret.='</a></div>'.$ahref.mb_strimwidth($text,0,15,'..','UTF-8').'</a>'."\n";
 	$ret.=$pack."\n";
 	$ret.='</div>'."\n";
@@ -115,5 +120,27 @@ if($rootdir){
 	}
 }
 ?>
+<script type="text/javascript">
+function loadimg(){
+	var c=0;
+	$('img[src="images/working.gif"]').each(function(){
+		var t=this;
+		c+=1;
+		$.ajax({
+			url: $(this).attr('realsrc'),
+			type: 'GET',
+			timeout: 1500,
+			async: true,
+			dataType: 'text',
+ 			success: function(text){
+				$(t).attr('src',text);
+			}
+		})		
+	});
+	if(c)
+		setTimeout("loadimg()",10000);
+}
+loadimg();
+</script>
 </body>
 </html>
