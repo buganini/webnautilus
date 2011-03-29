@@ -129,7 +129,6 @@ function loadimg(){
 		$.ajax({
 			url: $(this).attr('realsrc'),
 			type: 'GET',
-			timeout: 1500,
 			async: true,
 			dataType: 'text',
  			success: function(text){
