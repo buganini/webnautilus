@@ -7,16 +7,10 @@ $gmw=new GearmanWorker();
 $gmw->addServer();
 $gmw->addFunction("webnautilus","doThumb");
 
-while($gmw->work()){
-	while(1){
-		$load=sys_getloadavg();
-		if($load[0]>5){
-			sleep(rand(5,20));
-		}else{
-			break;
-		}
-	}
-}
+$load=sys_getloadavg();
+if($load[0]>5) sleep(rand(5,20));
+
+$gmw->work();
 
 function doThumb($job){
 	global $CFG;
