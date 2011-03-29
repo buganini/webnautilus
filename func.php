@@ -231,11 +231,12 @@ function getbasename($s){
 }
 
 function getbase($s){
-	global $base;
+	global $base,$RTI;
 	if(isset($base[$s])){
 		setlocale(LC_ALL,$base[$s][3]);
 		$t=explode('.',$base[$s][3]);
 		mb_internal_encoding($t[1]);
+		$RTI['base']=$s;
 		return fixdirpath($base[$s][1]);
 	}else{
 		mb_internal_encoding('UTF-8');
@@ -328,10 +329,10 @@ function dirsize($d){
 
 /* old method, slow and the cache dont check if info is renew
 function dirsize($d){
-	global $base,$CFG['cachedir'];
+	global $base,$CFG['cachedir'],$RTI;
 	if(is_dir($d)){
-		$sfile=$CFG['cachedir'].$_GET['base'].'/'.sha1($d).'.siz';
-		if($base[$_GET['base']][2] && ($ret=@file_get_contents($sfile))!==false){
+		$sfile=$CFG['cachedir'].$RTI['base'].'/'.sha1($d).'.siz';
+		if($base[$RTI['base']][2] && ($ret=@file_get_contents($sfile))!==false){
 			return $ret;
 		}else{
 			$z=0;
@@ -341,7 +342,7 @@ function dirsize($d){
 				$z+=dirsize($d.'/'.$e);
 			}
 			closedir($dp);
-			if($base[$_GET['base']][2]){
+			if($base[$RTI['base']][2]){
 				file_put_contents($sfile,$z);
 			}
 			return $z;
@@ -414,7 +415,7 @@ function logger($s){
 
 function istoday($f){
 	global $base;
-	if($base[$_GET['base']][2]){
+	if($base[$RTI['base']][2]){
 		return false;
 	}
 	if(istoday_r(r($f))){
@@ -446,7 +447,7 @@ function istoday_r($f){
 
 function isarchive(){
 	global $base;
-	return ($base[$_GET['base']][2]);
+	return ($base[$RTI['base']][2]);
 }
 
 function basedir($dir){
@@ -457,7 +458,7 @@ function tryindex($fs,$dir){
 	global $CFG;
 	$bdir=basedir($dir);
 	$index_file='';
-	$ifile=$CFG['cachedir'].$_GET['base'].'/'.sha1($dir).'.idx';
+	$ifile=$CFG['cachedir'].$RTI['base'].'/'.sha1($dir).'.idx';
 	if(isarchive() && ($index_file=@file_get_contents($ifile))!==false){
 		return $index_file;
 	}else{
@@ -488,8 +489,8 @@ function tryindex($fs,$dir){
 			}
 		}
 		if(isarchive()){
-			if(!ufile_exists($CFG['cachedir'].$_GET['base'])){
-				umkdir($CFG['cachedir'].$_GET['base']);
+			if(!ufile_exists($CFG['cachedir'].$RTI['base'])){
+				umkdir($CFG['cachedir'].$RTI['base']);
 			}
 			file_put_contents($ifile,$index_file);
 		}
