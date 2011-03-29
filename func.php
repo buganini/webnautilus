@@ -446,7 +446,7 @@ function istoday_r($f){
 }
 
 function isarchive(){
-	global $base;
+	global $base,$RTI;
 	return ($base[$RTI['base']][2]);
 }
 
@@ -455,7 +455,7 @@ function basedir($dir){
 }
 
 function tryindex($fs,$dir){
-	global $CFG;
+	global $CFG,$RTI;
 	$bdir=basedir($dir);
 	$index_file='';
 	$ifile=$CFG['cachedir'].$RTI['base'].'/'.sha1($dir).'.idx';

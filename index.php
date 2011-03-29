@@ -110,8 +110,8 @@ if($rootdir){
 	echo $t['html'];
 }else{
 	foreach($base as $k=>$v){
-		$_GET['base']=$k;
-		echo mkitem($v[0],$v[0],$v[0],'<a href="index.php?base='.$k.'">','images/dir.gif',istoday($v[1]),(($dz=dirsize($v[1]))>0?'<br /><a style="float:right;" href="pack.php?base='.$k.'"><img alt="Pack n Download" title="下載這個資料夾 - '.fsize($dz).'" src="images/pack.gif" /></a>':''));
+		getbase($k);
+		echo mkitem($v[0],$v[0],$v[0],'<a href="index.php?base='.$k.'">','images/dir.gif',istoday($v[1]),(($dz=udirsize($v[1]))>0?'<br /><a style="float:right;" href="pack.php?base='.$k.'"><img alt="Pack n Download" title="下載這個資料夾 - '.fsize($dz).'" src="images/pack.gif" /></a>':''));
 	}
 }
 ?>
