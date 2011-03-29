@@ -414,7 +414,7 @@ function logger($s){
 }
 
 function istoday($f){
-	global $base;
+	global $base,$RTI;
 	if($base[$RTI['base']][2]){
 		return false;
 	}
