@@ -17,12 +17,15 @@ Dependency:
 	firefox 2+
 	Pearl Crescent Page Saver (Basic)
 
-Other:
-	"C:/OpenOffice.org/program/soffice.exe" -headless -norestore -accept="socket,host=localhost,port=2002;urp;"
-
-
 Troubleshooting: (FreeBSD)
 	unoconv:
 		ldconfig -m /usr/local/lib/libreoffice/ure/lib/
 		sys.path.append('/usr/local/lib/libreoffice/basis3.3/program')
 		os.putenv('URE_BOOTSTRAP','vnd.sun.star.pathname:/usr/local/lib/libreoffice/basis3.3/program/fundamentalbasisrc')
+
+Notes:
+	rc.local:
+		killall gearman
+		killall soffice.bin
+		libreoffice -headless -norestore -accept="socket,host=localhost,port=2002;urp;" &
+		/usr/local/bin/gearman -w -f webnautilus -- /usr/local/bin/php /home/www/picture/bg_thumb.php &
