@@ -21,7 +21,7 @@ $DEFAULT['thumb_size']='80x60';
 #"C:/OpenOffice.org/program/soffice.exe" -headless -accept="socket,host=localhost,port=2002;urp;"
 $base=array(
 	#'basename'=>array('title','relative path',archive);
-	'CHOPS'=>array('CHOPS','/mnt/picture/',true,'zh_TW.Big5'),
+	'CHOPS'=>array('CHOPS','CHOPS/',true,'zh_TW.Big5'),
 );
 
 #filename in this list will not display, in lower case
@@ -34,7 +34,6 @@ $_now=time();
 $CFG['gcpurl']=fixdirpath($CFG['gcpurl']);
 $CFG['cachedir']=fixdirpath(urealpath($CFG['cachedir']));
 $CFG['tempdir']=fixdirpath(urealpath($CFG['tempdir']));
-$CFG['lockdir']=fixdirpath(urealpath($CFG['lockdir']));
 $CFG['cacheurl']=fixdirpath($CFG['cacheurl']);
 $sysroot=fixdirpath(dirname(__FILE__));
 chdir($sysroot);
@@ -71,7 +70,7 @@ function mylock($t){
 	global $CFG;
 	$memcache = new Memcache;
 	$memcache->pconnect($CFG['memcache']);
-	$memcache->set('webnautilus-'.$t,1);
+	$memcache->set('webnautilus-'.$t,1,0,86400);
 }
 
 function myunlock($t){ 
