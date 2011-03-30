@@ -12,7 +12,7 @@ foreach($base as $b){
 
 while(count($todo)){
 	list($b,$p)=array_shift($todo);
-	echo $b.$p."\n";
+#	echo $b.$p."\n";
 	$rootdir=getbase($b);
 	$fp=$rootdir.$p;
 	if(uis_dir($fp)){
