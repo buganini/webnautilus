@@ -37,7 +37,7 @@ while(count($todo)){
 		$s=serialize($job);
 		echo $s;
 		echo "\n";
-		$gmc->doBackground("webnautilus",$s);
+		$gmc->doLowBackground("webnautilus",$s);
 	}
 }
 ?>
