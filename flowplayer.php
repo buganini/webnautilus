@@ -15,14 +15,18 @@ if(ufile_exists($CFG['cachedir'].$hash.'.mp4')){
 <body><!-- <?php echo $hash;?> -->
 <div style="font-size:10pt;"><?php echo mklink(getbasename($_GET['base']),$file);?></div>
 <center>
-<a
-href="<?php echo $CFG['browserurl'].$CFG['cacheurl'].$hash.'.mp4';?>"
-style="display:block;width:640px;height:480px"
-id="player">
+<span id="player" style="display:block;width:640px;height:480px"></span>
+<!--
 <img src="<?php echo $CFG['browserurl'].$CFG['cacheurl'].$hash.'_L.jpg';?>" style="width:640px; height:480px;" />
-</a>
+-->
 <script type="text/javascript">
-	flowplayer("player", "flowplayer/flowplayer-3.2.7.swf");
+	flowplayer("player", "flowplayer/flowplayer-3.2.7.swf", {
+		clip: {
+			url: '<?php echo $CFG['browserurl'].$CFG['cacheurl'].$hash.'.mp4';?>',
+			autoPlay: true,
+			scaling: 'fit'
+		}
+	});
 </script>
 <br /><br />
 <a href="<?php echo urlenc($rootdir.$file);?>" style="color:#555;">原始檔案下載(<?php echo fsize(ufilesize($rootdir.$_GET['file']));?>)</a>
