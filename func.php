@@ -1,6 +1,6 @@
 <?php
 $CFG['url']='http://www.chops.ntct.edu.tw/picture/';
-$gcpurl='/jscss/gcp';		#google code prettifier
+$CFG['gcpurl']='/jscss/gcp';		#google code prettifier
 $CFG['memcache']='localhost';
 $CFG['cachedir']='/home/www/picture/cache/';
 $CFG['cacheurl']='cache/';

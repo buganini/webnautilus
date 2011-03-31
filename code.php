@@ -13,8 +13,8 @@ die();
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link href="common.css" rel="stylesheet" type="text/css" />
-<link href="<?php echo $gcpurl;?>prettify.css" type="text/css" rel="stylesheet" />
-<script type="text/javascript" src="<?php echo $gcpurl;?>prettify.js"></script>
+<link href="<?php echo $CFG['gcpurl'];?>prettify.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="<?php echo $CFG['gcpurl'];?>prettify.js"></script>
 </head>
 <body onload="prettyPrint()">
 <div style="font-size:10pt;"><?php echo mklink($_GET['base'],$_GET['file']);?></div>
