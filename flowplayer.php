@@ -21,6 +21,9 @@ if(ufile_exists($CFG['cachedir'].$hash.'.mp4')){
 -->
 <script type="text/javascript">
 	flowplayer("player", "flowplayer/flowplayer-3.2.7.swf", {
+		canvas: {
+			backgroundColor: '#000000'
+		},
 		clip: {
 			url: '<?php echo $CFG['browserurl'].$CFG['cacheurl'].$hash.'.mp4';?>',
 			autoPlay: true,

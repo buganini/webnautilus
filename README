@@ -6,7 +6,7 @@ Dependency:
 	memcache
 	enconv
 	mplayer
-	mencoder (component of mplayer)
+#	mencoder (component of mplayer)
 	ffmpeg
 	yamdi (Windows version in distfile/)
 	ImageMagick
