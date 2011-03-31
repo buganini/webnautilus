@@ -17,7 +17,7 @@ die();
 <script type="text/javascript" src="<?php echo $gcpurl;?>prettify.js"></script>
 </head>
 <body onload="prettyPrint()">
-<div style="font-size:10pt;"><?php echo getbasename($_GET['base']).t($_GET['file']);?></div>
+<div style="font-size:10pt;"><?php echo mklink($_GET['base'],$_GET['file']);?></div>
 <pre class="prettyprint"><?php
 $s=ufile_get_contents($rootdir.$file);
 echo dehtml(mb_convert_encoding($s,'UTF-8',mb_detect_encoding($s)));
