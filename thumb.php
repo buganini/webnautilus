@@ -67,7 +67,7 @@ if(thumb_able($file)){
 	$gmc=new Gearmanclient();
 	$gmc->addServer();
 	$gmc->doBackground("webnautilus",serialize($job));
-	header('HTTP/1.1 503');
+	header('HTTP/1.1 491');
 	exit;	
 }elseif(isset($extmap[getext($file)])){
 	echo ('images/'.$extmap[getext($file)]);
