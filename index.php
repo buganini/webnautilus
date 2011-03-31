@@ -61,7 +61,7 @@ function renderdir($rootdir,$dir){
 	}
 	foreach($fnlist as $e){
 		if(isvideo($e)){
-			$ahref='<a href="flvplayer.php?base='.$_GET['base'].'&file='.urlencode($dir.$e).'">';
+			$ahref='<a href="flowplayer.php?base='.$_GET['base'].'&file='.urlencode($dir.$e).'">';
 		}elseif(isimage($e)){
 			$ahref='<a href="image.php?base='.$_GET['base'].'&file='.urlencode($dir.$e).'">';
 		}elseif(isweb($e)){
