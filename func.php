@@ -215,6 +215,13 @@ function ftime($s){
 	return $d.'d'.$h.'h'.$m.'m'.$s.'s';
 }
 
+function ufiletime($f){
+	return filetime(r($f));
+}
+
+function filetime($f){
+	return max(filemtime($f),filectime($f));
+}
 function rmtry($f){
 	if(ufile_exists($f)){
 		@uunlink($f);
@@ -383,8 +390,8 @@ function newer($a,$b){
 	if((!file_exists($b)) || (!file_exists($a))){
 		return true;
 	}
-	$at=max(filemtime($a),filectime($a));
-	$bt=max(filemtime($b),filectime($b));
+	$at=filetime($a);
+	$bt=filetime($b);
 	if($at>$bt){
 		return true;
 	}
@@ -427,7 +434,7 @@ function istoday($f){
 
 function istoday_r($f){
 	global $_now;
-	$ft=max(filemtime($f),filectime($f));
+	$ft=filetime($f);
 	if($_now-$ft<86400){
 		return true;
 	}
