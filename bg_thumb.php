@@ -84,7 +84,7 @@ echo $cmd5."\n\n";
 				ucopy($rootdir.$file,$tfile);
 				$pdf=$CFG['tempdir'].$thash.'.pdf';
 				if(!ufile_exists($pdf)){
-					$cmd=$CFG['unoconv'].' -f pdf '.escapeshellarg($tfile);
+					$cmd=$CFG['libreoffice'].' -headless -norestore -nolockcheck -convert-to pdf -outdir '.escapeshellarg($CFG['tempdir']).' '.escapeshellarg($tfile);
 					exe($cmd);
 				}
 				copy($pdf,$CFG['cachedir'].$hash.'.pdf');

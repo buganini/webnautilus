@@ -12,7 +12,7 @@ $CFG['ffmpeg']='/usr/local/bin/ffmpeg';
 $CFG['imagemagick_convert']='/usr/local/bin/convert';
 $CFG['imagemagick_identify']='/usr/local/bin/identify';
 $CFG['sevenzip']='/usr/local/bin/7zip.exe';
-$CFG['unoconv']='/usr/local/bin/python /home/www/picture/unoconv/unoconv';
+$CFG['libreoffice']='/usr/local/bin/libreoffice';
 $CFG['ghostscript']='/usr/local/bin/gsc';
 $CFG['firefox']='C:/Firefox/firefox.exe';
 $CFG['ffprofile']='d:/ffprofile';
@@ -21,7 +21,7 @@ $DEFAULT['thumb_size']='80x60';
 #"C:/OpenOffice.org/program/soffice.exe" -headless -accept="socket,host=localhost,port=2002;urp;"
 $base=array(
 	#'basename'=>array('title','relative path',archive);
-	'CHOPS'=>array('CHOPS','CHOPS/',true,'zh_TW.Big5'),
+	'CHOPS'=>array('CHOPS','CHOPS/',true,'zh_TW.UTF-8'),
 );
 
 #filename in this list will not display, in lower case
