@@ -82,15 +82,14 @@ echo $cmd5."\n\n";
 			if(!ufile_exists($CFG['tempdir'].$thash.'.bmp')){
 				$tfile=$CFG['tempdir'].$thash.'.'.getext($file);
 				if(getext($file)=='txt'){
-					file_put_contents($tfile,"\xEF\xBB\xBF");
-					$cmd='cat '.escapeshellarg($rootdir.$file).' | '.$CFG['enca'].' -L '.$RTI['locale'].' -x UTF-8 >> '.escapeshellarg($tfile);
+					$cmd=$CFG['enca'].' -L '.$RTI['locale'].' -x UTF-8 < '.escapeshellarg($rootdir.$file).' > '.escapeshellarg($tfile);
 					exe($cmd);
 				}else{
 					ucopy($rootdir.$file,$tfile);
 				}
 				$pdf=$CFG['tempdir'].$thash.'.pdf';
 				if(!ufile_exists($pdf)){
-					$cmd=$CFG['libreoffice'].' -headless -norestore -nolockcheck -convert-to pdf -outdir '.escapeshellarg($CFG['tempdir']).' '.escapeshellarg($tfile);
+					$cmd=$CFG['libreoffice'].' -convert-to pdf -outdir '.escapeshellarg($CFG['tempdir']).' '.escapeshellarg($tfile);
 					exe($cmd);
 				}
 				copy($pdf,$CFG['cachedir'].$hash.'.pdf');
