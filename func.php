@@ -12,13 +12,14 @@ $CFG['ffmpeg']='/usr/local/bin/ffmpeg';
 $CFG['imagemagick_convert']='/usr/local/bin/convert';
 $CFG['imagemagick_identify']='/usr/local/bin/identify';
 $CFG['sevenzip']='/usr/local/bin/7zip.exe';
+$CFG['enca']='/usr/local/bin/enca';
 $CFG['libreoffice']='/usr/local/bin/libreoffice';
 $CFG['ghostscript']='/usr/local/bin/gsc';
 $CFG['firefox']='C:/Firefox/firefox.exe';
 $CFG['ffprofile']='d:/ffprofile';
 $CFG['ffdownload']='d:/ffdown/';
 $DEFAULT['thumb_size']='80x60';
-#"C:/OpenOffice.org/program/soffice.exe" -headless -accept="socket,host=localhost,port=2002;urp;"
+
 $base=array(
 	#'basename'=>array('title','relative path',archive);
 	'CHOPS'=>array('CHOPS','CHOPS/',true,'zh_TW.UTF-8'),
@@ -234,6 +235,7 @@ function getbase($s){
 	if(isset($base[$s])){
 		setlocale(LC_ALL,$base[$s][3]);
 		$t=explode('.',$base[$s][3]);
+		$RTI['locale']=$t[0];
 		mb_internal_encoding($t[1]);
 		$RTI['base']=$s;
 		return fixdirpath($base[$s][1]);
