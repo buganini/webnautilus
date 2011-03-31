@@ -4,6 +4,7 @@ Notice:
 Dependency:
 	gearman
 	memcache
+	enconv
 	mplayer
 	mencoder (component of mplayer)
 	ffmpeg
@@ -11,7 +12,7 @@ Dependency:
 	ImageMagick
 	7-zip
 	flowplayer
-	LibreOffice or OpenOffice.org
+	LibreOffice
 	ghostscript
 	firefox 2+
 	Pearl Crescent Page Saver (Basic)
