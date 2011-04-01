@@ -2,18 +2,20 @@ Notice:
 	temp and cache dir should be in the same partition so that files can be moved fast.
 
 Dependency:
-	gearman
-	memcache
-	enconv
-	mplayer
-#	mencoder (component of mplayer)
-	ffmpeg
-	yamdi (Windows version in distfile/)
-	ImageMagick
+	converters/enca
+	databases/pecl-memcache
+	devel/gearmand
+	devel/pecl-gearman
+	editors/libreoffice/
+	graphics/ImageMagick
+	multimedia/mplayer
+#	multimedia/mencoder
+	multimedia/ffmpeg (with libfaac)
+	multimedia/yamdi
+	print/ghostscript8
+	www/mod_h264_streaming (for apache)
 	7-zip
 	flowplayer
-	LibreOffice
-	ghostscript
 	firefox 2+
 	Pearl Crescent Page Saver (Basic)
 
