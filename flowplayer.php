@@ -26,7 +26,8 @@ if(ufile_exists($CFG['cachedir'].$hash.'.mp4')){
 		},
 		clip: {
 			url: '<?php echo $CFG['browserurl'].$CFG['cacheurl'].$hash.'.mp4';?>',
-			autoPlay: true,
+			autoPlay: false,
+			autoBuffering: true,
 			scaling: 'fit'
 		}
 	});
