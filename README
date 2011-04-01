@@ -15,7 +15,7 @@ Dependency:
 	print/ghostscript8
 	www/mod_h264_streaming (for apache)
 	7-zip
-	flowplayer
+	flowplayer (and it's pseudostreaming plugin)
 	firefox 2+
 	Pearl Crescent Page Saver (Basic)
 

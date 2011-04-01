@@ -28,7 +28,13 @@ if(ufile_exists($CFG['cachedir'].$hash.'.mp4')){
 			url: '<?php echo $CFG['browserurl'].$CFG['cacheurl'].$hash.'.mp4';?>',
 			autoPlay: false,
 			autoBuffering: true,
-			scaling: 'fit'
+			scaling: 'fit',
+			provider: 'streaming'
+		},
+		plugins: {
+			streaming: {
+				url: 'flowplayer/flowplayer.pseudostreaming-3.2.7.swf'
+			}
 		}
 	});
 </script>
