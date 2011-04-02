@@ -67,7 +67,7 @@ echo "			provider: 'streaming'";?>
 <link href="common.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-File is coverting, please try again later.
+File is under conversion, please try again later.
 </body>
 </html>
 <?php
