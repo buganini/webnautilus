@@ -33,11 +33,17 @@ while(count($todo)){
 		if(!newer($fp,$CFG['cachedir'].$hash.'_'.$size.'.jpg')){
 			continue;
 		}
-		$job=array('base'=>$b,'file'=>$p,'size'=>$size);
-		$s=serialize($job);
-		echo $s;
-		echo "\n";
-		$gmc->doLowBackground("webnautilus",$s);
+	}elseif(isaudio($fp)){
+		if(!newer($fp,$CFG['cachedir'].$hash.'.mp3')){
+			continue;
+		}
+	}else{
+		continue;
 	}
+	$job=array('base'=>$b,'file'=>$p,'size'=>$size);
+	$s=serialize($job);
+	echo $s;
+	echo "\n";
+	$gmc->doLowBackground("webnautilus",$s);
 }
 ?>
