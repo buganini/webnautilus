@@ -1,11 +1,17 @@
-<html>
+<?php
+include('func.php');
+
+if(empty($_GET['base']) && count($base)==1){
+	foreach($base as $k=>$v)
+		redirect('index.php?base='.$k);
+}
+?><html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 <link href="common.css" rel="stylesheet" type="text/css" />
 </head>
 <body><?php
-include('func.php');
 
 function renderdir($rootdir,$dir){
 	global $ignore;
