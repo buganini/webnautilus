@@ -220,7 +220,7 @@ function ufiletime($f){
 }
 
 function filetime($f){
-	return max(filemtime($f),filectime($f));
+	return filemtime($f);
 }
 function rmtry($f){
 	if(ufile_exists($f)){
@@ -392,7 +392,7 @@ function newer($a,$b){
 	}
 	$at=filetime($a);
 	$bt=filetime($b);
-	if($at>$bt){
+	if($at!=$bt){
 		return true;
 	}
 	if(is_dir($a)){
