@@ -57,7 +57,7 @@ function renderdir($rootdir,$dir){
 		if(isset($cfg['icon'])){
 			$img='thumb.php?base='.$_GET['base'].'&file='.urlencode($dir.fixdirpath($e).upath($cfg['icon']));
 		}
-		$ret.=mkitem($e,$e,$e,'<a href="'.$ahref.'"'.($cfg['target']=='_blank'?' target="_blank"':'').'>',$img,istoday($rootdir.$dir.$e),(($dz=udirsize($rootdir.$dir.$e))>0?'<br /><a name="pack" style="display: none; float:right;" href="pack.php?base='.$_GET['base'].'&dir='.urlencode($dir.$e).'"><img alt="Download" title="Download - '.fsize($dz).'" src="images/pack.gif" /></a>':''));
+		$ret.=mkitem($e,$e,$e,'<a href="'.$ahref.'"'.($cfg['target']=='_blank'?' target="_blank"':'').'>',$img,istoday($rootdir.$dir.$e),(($dz=udirsize($rootdir.$dir.$e))>0?'<br /><a name="pack" style="visibility: hidden; float:right;" href="pack.php?base='.$_GET['base'].'&dir='.urlencode($dir.$e).'"><img alt="Download" title="Download - '.fsize($dz).'" src="images/pack.gif" /></a>':''));
 	}
 	foreach($fnlist as $e){
 		if(isvideo($e)){
@@ -85,7 +85,7 @@ function mkitem($text,$alt,$title,$ahref,$img,$today,$pack){
 	$ret.='<div class="item">'.($today?'<img src="images/new.gif" style="position:absolute; z-index:20;" alt="new" />':'')."\n";
 	$ret.='<div style="width:80px;height:60px;margin:auto;">'.$ahref."\n";
 	if(substr($img,0,9)=='thumb.php'){
-		$ret.='<img style="alt="'.$alt.'" title="'.$title.'" src="images/working.gif" realsrc="'.$img.'" />'."\n";
+		$ret.='<img style="alt="'.$alt.'" title="'.$title.'" thumb="true" src="images/working.gif" realsrc="'.$img.'" />'."\n";
 	}else{
 		$ret.='<img style="alt="'.$alt.'" title="'.$title.'" src="'.$img.'" />'."\n";
 	}
@@ -123,14 +123,14 @@ if($rootdir){
 <script type="text/javascript">
 $('a[name="pack"]').each(function(){
 	$(this).parent().hover(function(){
-		$(this).children('a[name="pack"]').css('display','inline')
+		$(this).children('a[name="pack"]').css('visibility','visible')
 	},function(){
-		$(this).children('a[name="pack"]').css('display','none')
+		$(this).children('a[name="pack"]').css('visibility','hidden')
 	})
 })
 function loadimg(){
 	var c=0;
-	$('img[realsrc!=""]').each(function(){
+	$('img[thumb="true"]').each(function(){
 		var t=this;
 		c+=1;
 		$.ajax({
@@ -139,7 +139,7 @@ function loadimg(){
 			async: true,
 			dataType: 'text',
  			success: function(text){
-				$(t).attr('realsrc','');
+				$(t).attr('thumb','');
 				$(t).attr('src',text);
 			}
 		})		
