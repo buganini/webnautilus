@@ -9,6 +9,7 @@ $CFG['mencoder']='/usr/local/bin/mencoder';
 $CFG['mplayer']='/usr/local/bin/mplayer';
 $CFG['yamdi']='/usr/local/bin/yamdi';
 $CFG['ffmpeg']='/usr/local/bin/ffmpeg';
+$CFG['timidity']='/usr/local/bin/timidity';
 $CFG['imagemagick_convert']='/usr/local/bin/convert';
 $CFG['imagemagick_identify']='/usr/local/bin/identify';
 $CFG['sevenzip']='/usr/local/bin/7z';
@@ -282,45 +283,35 @@ function dehtml($s){
 
 
 function isvideo($file){
-	if(in_array(getext($file),array('mpg','mpeg','avi','rm','rmvb','mov','wmv','mod','asf','m1v','mp2','mpe','mpa','flv','3pg','vob','mp4'))){
-		return true;
-	}
-	return false;
+	return in_array(getext($file),array('mpg','mpeg','avi','rm','rmvb','mov','wmv','mod','asf','m1v','mp2','mpe','mpa','flv','3pg','vob','mp4'));
+}
+
+function isaudio($file){
+	return in_array(getext($file),array('mp3','wav','flac','ape','wma','mid','rmi'));
+}
+
+function ismidi($file){
+	return in_array(getext($file),array('mid','rmi'));
 }
 
 function isdocument($file){
-	if(in_array(getext($file),array('doc','txt','pdf','ppt','pps','xls'))){
-		return true;
-	}
-	return false;
+	return in_array(getext($file),array('doc','txt','pdf','ppt','pps','xls'));
 }
 
 function isimage($file){
-	if(in_array(getext($file),array('jpg','bmp','gif','png','jpeg','tiff','tif','psd'))){
-		return true;
-	}
-	return false;
+	return in_array(getext($file),array('jpg','bmp','gif','png','jpeg','tiff','tif','psd'));
 }
 
 function isspecimage($file){
-	if(in_array(getext($file),array('tiff','tif','psd'))){
-		return true;
-	}
-	return false;
+	return in_array(getext($file),array('tiff','tif','psd'));
 }
 
 function isweb($file){
-	if(in_array(getext($file),array('htm','html'))){
-		return true;
-	}
-	return false;
+	return in_array(getext($file),array('htm','html'));
 }
 
 function iscode($file){
-	if(in_array(getext($file),array('c','cpp','h','pl','py','php','phps','asp','aspx','css','jsp','sh','shar'))){
-		return true;
-	}
-	return false;
+	return in_array(getext($file),array('c','cpp','h','pl','py','php','phps','asp','aspx','css','jsp','sh','shar'));
 }
 
 function redirect($s){

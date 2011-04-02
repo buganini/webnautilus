@@ -5,7 +5,12 @@ if(($file=safepath($rootdir,$_GET['file']))===false){
 	die();
 }
 $hash=$_GET['base'].'/'.mkhash($rootdir.$file);
-if(ufile_exists($CFG['cachedir'].$hash.'.mp4')){
+if(isvideo($file)){
+	$ext='mp4';
+}elseif(isaudio($file)){
+	$ext='mp3';
+}
+if(ufile_exists($CFG['cachedir'].$hash.'.'.$ext)){
 ?><html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -25,15 +30,20 @@ if(ufile_exists($CFG['cachedir'].$hash.'.mp4')){
 			backgroundColor: '#000000'
 		},
 		clip: {
-			url: '<?php echo $CFG['browserurl'].$CFG['cacheurl'].$hash.'.mp4';?>',
+			url: '<?php echo $CFG['browserurl'].$CFG['cacheurl'].$hash.'.'.$ext;?>',
 			autoPlay: false,
 			autoBuffering: true,
 			scaling: 'fit',
-			provider: 'streaming'
+<?php
+if($ext=='mp4')
+echo "			provider: 'streaming'";?>
 		},
 		plugins: {
 			streaming: {
 				url: 'flowplayer/flowplayer.pseudostreaming-3.2.7.swf'
+			},
+			audio: {
+				url: 'flowplayer/flowplayer.audio-3.2.2.swf'
 			}
 		}
 	});
@@ -45,6 +55,10 @@ if(ufile_exists($CFG['cachedir'].$hash.'.mp4')){
 </html>
 <?php
 }else{
+	$job=array('base'=>$_GET['base'],'file'=>$file);
+	$gmc=new Gearmanclient();
+	$gmc->addServer();
+	$gmc->doBackground("webnautilus",serialize($job));
 ?>
 <html>
 <head>
@@ -53,7 +67,7 @@ if(ufile_exists($CFG['cachedir'].$hash.'.mp4')){
 <link href="common.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-轉檔尚未完成，請稍後再試。
+File is coverting, please try again later.
 </body>
 </html>
 <?php

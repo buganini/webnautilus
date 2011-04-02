@@ -3,6 +3,7 @@ Notice:
 
 Dependency:
 	archivers/p7zip
+	audio/timidity
 	converters/enca
 	databases/pecl-memcache
 	devel/gearmand
@@ -15,7 +16,9 @@ Dependency:
 	multimedia/yamdi
 	print/ghostscript8
 	www/mod_h264_streaming (for apache)
-	flowplayer (and it's pseudostreaming plugin)
+	flowplayer (and it's plugins:)
+		audio
+		pseudostreaming
 	firefox 2+
 	Pearl Crescent Page Saver (Basic)
 

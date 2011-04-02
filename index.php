@@ -8,6 +8,7 @@ if(empty($_GET['base']) && count($base)==1){
 ?><html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- http://github.com/buganini/webnautilus/ -->
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 <link href="common.css" rel="stylesheet" type="text/css" />
 </head>
@@ -66,7 +67,7 @@ function renderdir($rootdir,$dir){
 		$ret.=mkitem($e,$e,$e,'<a href="'.$ahref.'"'.($cfg['target']=='_blank'?' target="_blank"':'').'>',$img,istoday($rootdir.$dir.$e),(($dz=udirsize($rootdir.$dir.$e))>0?'<br /><a name="pack" style="visibility: hidden; float:right;" href="pack.php?base='.$_GET['base'].'&dir='.urlencode($dir.$e).'"><img alt="Download" title="Download - '.fsize($dz).'" src="images/pack.gif" /></a>':''));
 	}
 	foreach($fnlist as $e){
-		if(isvideo($e)){
+		if(isvideo($e) || isaudio($e)){
 			$ahref='<a href="flowplayer.php?base='.$_GET['base'].'&file='.urlencode($dir.$e).'">';
 		}elseif(isimage($e)){
 			$ahref='<a href="image.php?base='.$_GET['base'].'&file='.urlencode($dir.$e).'">';

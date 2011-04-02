@@ -50,6 +50,22 @@ if(isvideo($file)){
 			touch($CFG['cachedir'].$hash.'_'.$size.'.jpg',ufiletime($rootdir.$file));
 		myunlock($thash);
 	}
+}elseif(isaudio($file)){
+	if(newer($rootdir.$file,$CFG['cachedir'].$hash.'.mp3')){
+		mylock($thash);
+		if(ismidi($file)){
+			$cmd=$CFG['timidity'].' -Ow -o '.escapeshellarg(r($CFG['tempdir'].$thash.'.wav')).' '.escapeshellarg(r($rootdir.$file));
+			exe($cmd);
+			$cmd=$CFG['ffmpeg'].' -y -i '.escapeshellarg(r($CFG['tempdir'].$thash.'.wav')).' '.escapeshellarg($CFG['cachedir'].$hash.'.mp3');
+			exe($cmd);
+			uunlink($CFG['tempdir'].$thash.'.wav');
+		}else{
+			$cmd=$CFG['ffmpeg'].' -y -i '.escapeshellarg(r($rootdir.$file)).' '.escapeshellarg($CFG['cachedir'].$hash.'.mp3');
+			exe($cmd);
+		}
+		touch($CFG['cachedir'].$hash.'.mp3',ufiletime($rootdir.$file));
+		myunlock($thash);		
+	}	
 }elseif(isimage($file)){
 	if(newer($rootdir.$file,$CFG['cachedir'].$hash.'_'.$size.'.jpg')){
 		mylock($thash);
