@@ -2,11 +2,12 @@ Notice:
 	temp and cache dir should be in the same partition so that files can be moved fast.
 
 Dependency:
+	archivers/p7zip
 	converters/enca
 	databases/pecl-memcache
 	devel/gearmand
 	devel/pecl-gearman
-	editors/libreoffice/
+	editors/libreoffice
 	graphics/ImageMagick
 	multimedia/mplayer
 #	multimedia/mencoder
@@ -14,7 +15,6 @@ Dependency:
 	multimedia/yamdi
 	print/ghostscript8
 	www/mod_h264_streaming (for apache)
-	7-zip
 	flowplayer (and it's pseudostreaming plugin)
 	firefox 2+
 	Pearl Crescent Page Saver (Basic)

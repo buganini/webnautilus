@@ -11,7 +11,7 @@ $CFG['yamdi']='/usr/local/bin/yamdi';
 $CFG['ffmpeg']='/usr/local/bin/ffmpeg';
 $CFG['imagemagick_convert']='/usr/local/bin/convert';
 $CFG['imagemagick_identify']='/usr/local/bin/identify';
-$CFG['sevenzip']='/usr/local/bin/7zip.exe';
+$CFG['sevenzip']='/usr/local/bin/7z';
 $CFG['enca']='/usr/local/bin/enca';
 $CFG['libreoffice']='/usr/local/bin/libreoffice';
 $CFG['ghostscript']='/usr/local/bin/gsc';
@@ -330,6 +330,7 @@ function redirect($s){
 
 function dirsize($d){
 	if(is_dir($d)){
+		return exe('du -sk '.escapeshellarg(r($d)))*2*1024;
 	}else{
 		return filesize($d);
 	}
