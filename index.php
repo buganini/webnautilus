@@ -123,7 +123,7 @@ if($rootdir){
 <script type="text/javascript">
 function loadimg(){
 	var c=0;
-	$('img[src="images/working.gif"]').each(function(){
+	$('img[realsrc!=""]').each(function(){
 		var t=this;
 		c+=1;
 		$.ajax({
@@ -132,6 +132,7 @@ function loadimg(){
 			async: true,
 			dataType: 'text',
  			success: function(text){
+				$(t).attr('realsrc','');
 				$(t).attr('src',text);
 			}
 		})		
