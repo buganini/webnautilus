@@ -57,7 +57,7 @@ function renderdir($rootdir,$dir){
 		if(isset($cfg['icon'])){
 			$img='thumb.php?base='.$_GET['base'].'&file='.urlencode($dir.fixdirpath($e).upath($cfg['icon']));
 		}
-		$ret.=mkitem($e,$e,$e,'<a href="'.$ahref.'"'.($cfg['target']=='_blank'?' target="_blank"':'').'>',$img,istoday($rootdir.$dir.$e),(($dz=udirsize($rootdir.$dir.$e))>0?'<br /><a style="float:right;" href="pack.php?base='.$_GET['base'].'&dir='.urlencode($dir.$e).'"><img alt="Pack n Download" title="下載這個資料夾 - '.fsize($dz).'" src="images/pack.gif" /></a>':''));
+		$ret.=mkitem($e,$e,$e,'<a href="'.$ahref.'"'.($cfg['target']=='_blank'?' target="_blank"':'').'>',$img,istoday($rootdir.$dir.$e),(($dz=udirsize($rootdir.$dir.$e))>0?'<br /><a name="pack" style="display: none; float:right;" href="pack.php?base='.$_GET['base'].'&dir='.urlencode($dir.$e).'"><img alt="Download" title="Download - '.fsize($dz).'" src="images/pack.gif" /></a>':''));
 	}
 	foreach($fnlist as $e){
 		if(isvideo($e)){
@@ -121,6 +121,13 @@ if($rootdir){
 }
 ?>
 <script type="text/javascript">
+$('a[name="pack"]').each(function(){
+	$(this).parent().hover(function(){
+		$(this).children('a[name="pack"]').css('display','inline')
+	},function(){
+		$(this).children('a[name="pack"]').css('display','none')
+	})
+})
 function loadimg(){
 	var c=0;
 	$('img[realsrc!=""]').each(function(){
