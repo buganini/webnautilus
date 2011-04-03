@@ -33,3 +33,7 @@ Notes:
 		killall gearman
 		/usr/local/bin/gearman -w -f webnautilus -- /usr/local/bin/php /home/www/picture/worker.php &
 
+	robots:
+		User-agent: *
+		Disallow: /picture/pack.php
+
