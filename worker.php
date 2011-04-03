@@ -56,7 +56,7 @@ if(isvideo($file)){
 		if(ismidi($file)){
 			$cmd=$CFG['timidity'].' -Ow -o '.escapeshellarg(r($CFG['tempdir'].$thash.'.wav')).' '.escapeshellarg(r($rootdir.$file));
 			exe($cmd);
-			$cmd=$CFG['ffmpeg'].' -y -i '.escapeshellarg(r($CFG['tempdir'].$thash.'.wav')).' '.escapeshellarg($CFG['cachedir'].$hash.'.mp3');
+			$cmd=$CFG['ffmpeg'].' -y -i '.escapeshellarg(r($CFG['tempdir'].$thash.'.wav')).' -b 96k '.escapeshellarg($CFG['cachedir'].$hash.'.mp3');
 			exe($cmd);
 			uunlink($CFG['tempdir'].$thash.'.wav');
 		}else{
