@@ -16,6 +16,8 @@ Dependency:
 	multimedia/yamdi
 	print/ghostscript8
 	www/mod_h264_streaming (for apache)
+	x11-servers/xorg-vfbserver (and it's missing dependency:)
+		x11/xkeyboard-config
 	flowplayer (and it's plugins:)
 		audio
 		pseudostreaming
@@ -24,5 +26,10 @@ Dependency:
 
 Notes:
 	rc.local:
+		killall Xvfb
+		Xvfb :5 -screen scrn 1024x768x24 &
+		DISPLAY=:5.0
+		export DISPLAY
 		killall gearman
-		/usr/local/bin/gearman -w -f webnautilus -- /usr/local/bin/php /home/www/picture/bg_thumb.php &
+		/usr/local/bin/gearman -w -f webnautilus -- /usr/local/bin/php /home/www/picture/worker.php &
+
