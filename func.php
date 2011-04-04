@@ -76,7 +76,7 @@ function mylocked($t){
 
 function mylock($t){
 	global $RTI;
-	$RTI['memcache']->set('webnautilus-'.$t,1,0,86400);
+	return $RTI['memcache']->add('webnautilus-'.$t,1,0,86400);
 }
 
 function myunlock($t){ 

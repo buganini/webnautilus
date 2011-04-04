@@ -13,15 +13,14 @@ $hash=$job['base'].'/'.$hash;
 
 $size=$job['size'];
 
-if(mylocked($thash)){
-	return;
-}
+if(mylocked($thash)) exit;
+
 if(!ufile_exists($CFG['cachedir'].$job['base'])){
 	umkdir($CFG['cachedir'].$job['base']);
 }
 if(isvideo($file)){
 	if((newer($rootdir.$file,$CFG['cachedir'].$hash.'.mp4') || newer($rootdir.$file,$CFG['cachedir'].$hash.'_L.jpg') || newer($rootdir.$file,$CFG['cachedir'].$hash.'_'.$size.'.jpg'))){
-		mylock($thash);
+		mylock($thash) || exit;
 			if(!file_exists($CFG['cachedir'].$hash.'.mp4')){
 				$cmd1=$CFG['ffmpeg'].' -y -i '.escapeshellarg(r($rootdir.$file)).' -acodec libfaac -ab 96 -bufsize 500k -maxrate 500k -vcodec libx264 -vpre fast -crf 22 -threads 0 '.escapeshellarg($CFG['tempdir'].$thash.'.mp4');
 				exe($cmd1);
@@ -52,7 +51,7 @@ if(isvideo($file)){
 	}
 }elseif(isaudio($file)){
 	if(newer($rootdir.$file,$CFG['cachedir'].$hash.'.mp3')){
-		mylock($thash);
+		mylock($thash) || exit;
 		if(ismidi($file)){
 			$cmd=$CFG['timidity'].' -Ow -o '.escapeshellarg(r($CFG['tempdir'].$thash.'.wav')).' '.escapeshellarg(r($rootdir.$file));
 			exe($cmd);
@@ -68,7 +67,7 @@ if(isvideo($file)){
 	}	
 }elseif(isimage($file)){
 	if(newer($rootdir.$file,$CFG['cachedir'].$hash.'_'.$size.'.jpg')){
-		mylock($thash);
+		mylock($thash) || exit;
 			if((!ufile_exists($CFG['tempdir'].$thash.'.jpg')) && (!(ufile_exists($CFG['tempdir'].$thash.'-0.jpg')))){
 				$cmd=$CFG['imagemagick_convert'].' -quality 70 -geometry '.$size.' '.escapeshellarg(r($rootdir.$file)).' '.escapeshellarg($CFG['tempdir'].$thash.'.jpg');
 				exe($cmd);
@@ -89,7 +88,7 @@ if(isvideo($file)){
 	}
 }elseif(isdocument($file)){
 	if(newer($rootdir.$file,$CFG['cachedir'].$hash.'_'.$size.'.jpg')){
-		mylock($thash);
+		mylock($thash) || exit;
 			if(!ufile_exists($CFG['tempdir'].$thash.'.bmp')){
 				$tfile=$CFG['tempdir'].$thash.'.'.getext($file);
 				if(getext($file)=='txt'){
@@ -123,7 +122,7 @@ if(isvideo($file)){
 	}
 }elseif(isweb($file)){
 	if(newer($rootdir.$file,$CFG['cachedir'].$hash.'_'.$size.'.jpg')){
-		mylock($thash);
+		mylock($thash) || exit;
 			if(!ufile_exists($CFG['tempdir'].$thash.'.png')){
 				while(ufile_exists($CFG['tempdir'].'firefox.lock')){
 					sleep(rand(5,15));
