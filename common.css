@@ -8,6 +8,7 @@ body{
 	margin:5px;
 	float:left;
 	text-align:center;
+	overflow:hidden;
 /*	background:#abf;*/
 }
 .item a{
