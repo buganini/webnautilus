@@ -19,7 +19,7 @@ while(count($todo)){
 		$fs=uscandir($fp);
 		foreach($fs as $f){
 			if($f=='.'||$f=='..') continue;
-			$todo[]=array($b,$p.'/'.$f);
+			$todo[]=array($b,pathjoin($p,$f));
 		}
 		continue;
 	}

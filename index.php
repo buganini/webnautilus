@@ -19,14 +19,11 @@ function renderdir($rootdir,$dir){
 	$ret='';
 	$r=$fnlist=$dirlist=array();
 	$r['index']=null;
-	if(($dir=fixdirpath(safepath($rootdir,$dir)))===false){
+	if(($dir=safepath($rootdir,$dir))===false){
 		redirect('index.php');
 	}
-	if($dir=='/'){
-		$dir='';
-	}
 	$r['dir']=$dir;
-	$list=(array)uscandir($rootdir.$dir);
+	$list=(array)uscandir(pathjoin($rootdir,$dir));
 	if($list===false){
 		redirect('index.php?base='.$_GET['base']);
 	}
@@ -36,7 +33,7 @@ function renderdir($rootdir,$dir){
 		{
 			continue;
 		}
-		if(uis_dir($rootdir.$dir.$e))
+		if(uis_dir(pathjoin($rootdir,$dir,$e)))
 		{
 			$dirlist[]=$e;
 		}
@@ -47,41 +44,41 @@ function renderdir($rootdir,$dir){
 	}
 	$index_file=tryindex($fnlist,$dir);
 	if(!empty($index_file)){
-		$r['index']=$rootdir.$dir.$index_file;
+		$r['index']=pathjoin($rootdir,$dir,$index_file);
 	}
 	natsort($dirlist);
 	natsort($fnlist);
 	foreach($dirlist as $e){
-		$cfg=loadcfg($rootdir.$dir.$e);
+		$cfg=loadcfg(pathjoin($rootdir,$dir,$e));
 		if(isset($cfg['index'])){
-			$idx=$dir.fixdirpath($e).upath($cfg['index']);
-			$ahref=urlenc($rootdir.$idx);
+			$idx=pathjoin($dir,$e,upath($cfg['index']));
+			$ahref=urlenc(pathjoin($rootdir,$idx));
 			$img='thumb.php?base='.$_GET['base'].'&file='.urlencode($idx);
 		}else{
-			$ahref='index.php?base='.$_GET['base'].'&dir='.urlencode($dir.$e);
+			$ahref='index.php?base='.$_GET['base'].'&dir='.urlencode(pathjoin($dir,$e));
 			$img='images/dir.gif';
 		}
 		if(isset($cfg['icon'])){
-			$img='thumb.php?base='.$_GET['base'].'&file='.urlencode($dir.fixdirpath($e).upath($cfg['icon']));
+			$img='thumb.php?base='.$_GET['base'].'&file='.urlencode(pathjoin($dir,$e,upath($cfg['icon'])));
 		}
-		$ret.=mkitem($e,$e,$e,'<a href="'.$ahref.'"'.($cfg['target']=='_blank'?' target="_blank"':'').'>',$img,istoday($rootdir.$dir.$e),(($dz=udirsize($rootdir.$dir.$e))>0?'<br /><a name="pack" style="visibility: hidden; float:right;" href="pack.php?base='.$_GET['base'].'&dir='.urlencode($dir.$e).'"><img alt="Download" title="Download - '.fsize($dz).'" src="images/pack.gif" /></a>':''));
+		$ret.=mkitem($e,$e,$e,'<a href="'.$ahref.'"'.($cfg['target']=='_blank'?' target="_blank"':'').'>',$img,istoday(pathjoin($rootdir,$dir,$e)),(($dz=udirsize(pathjoin($rootdir,$dir,$e)))>0?'<br /><a name="pack" style="visibility: hidden; float:right;" href="pack.php?base='.$_GET['base'].'&dir='.urlencode(pathjoin($dir,$e)).'"><img alt="Download" title="Download - '.fsize($dz).'" src="images/pack.gif" /></a>':''));
 	}
 	foreach($fnlist as $e){
 		if(isvideo($e) || isaudio($e)){
-			$ahref='<a href="flowplayer.php?base='.$_GET['base'].'&file='.urlencode($dir.$e).'">';
+			$ahref='<a href="flowplayer.php?base='.$_GET['base'].'&file='.urlencode(pathjoin($dir,$e)).'">';
 		}elseif(isimage($e)){
-			$ahref='<a href="image.php?base='.$_GET['base'].'&file='.urlencode($dir.$e).'">';
+			$ahref='<a href="image.php?base='.$_GET['base'].'&file='.urlencode(pathjoin($dir,$e)).'">';
 		}elseif(isweb($e)){
-			$ahref='<a href="'.urlenc($rootdir.$dir.$e).'">';
+			$ahref='<a href="'.urlenc(pathjoin($rootdir,$dir,$e)).'">';
 		}elseif(isdocument($e)){
-			$ahref='<a href="document.php?base='.$_GET['base'].'&file='.urlencode($dir.$e).'">';
+			$ahref='<a href="document.php?base='.$_GET['base'].'&file='.urlencode(pathjoin($dir,$e)).'">';
 		}elseif(iscode($e)){
-			$ahref='<a href="code.php?base='.$_GET['base'].'&file='.urlencode($dir.$e).'">';
+			$ahref='<a href="code.php?base='.$_GET['base'].'&file='.urlencode(pathjoin($dir,$e)).'">';
 		}else{
-			$ahref='<a href="'.urlenc($rootdir.$dir.$e).'">';
+			$ahref='<a href="'.urlenc(pathjoin($rootdir,$dir,$e)).'">';
 		}
 #		echo $dir.$e."\t".urlencode($dir.$e)."\n";
-		$ret.=mkitem($e,$e,$e.' - ('.fsize(ufilesize($rootdir.$dir.$e)).')',$ahref,'thumb.php?base='.$_GET['base'].'&file='.urlencode($dir.$e),istoday($rootdir.$dir.$e),null);
+		$ret.=mkitem($e,$e,$e.' - ('.fsize(ufilesize(pathjoin($rootdir,$dir,$e))).')',$ahref,'thumb.php?base='.$_GET['base'].'&file='.urlencode(pathjoin($dir,$e)),istoday(pathjoin($rootdir,$dir,$e)),null);
 	}
 	$r['html']=$ret;
 	return $r;

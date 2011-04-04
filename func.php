@@ -50,7 +50,7 @@ function mklink($base,$sub){
 	$r[]='<a href="index.php?base='.$base.'">'.$base.'</a>';
 	$l=count($a)-1;
 	for($i=0;$i<$l;++$i){
-		$t.='/'.$a[$i];
+		$t=pathjoin($t,$a[$i]);
 		$r[]='<a href="index.php?base='.$base.'&dir='.urlencode($t).'">'.$a[$i].'</a>';
 	}
 	$r[]='<a>'.$a[$l].'</a>';
@@ -173,9 +173,17 @@ function ucopy($f,$g){
 }
 
 function fixdirpath($p){
-	if($p===false) return false;
 	$p=rtrim($p,'/\\').'/';
 	return $p;
+}
+
+function pathjoin(){
+	$args=func_get_args();
+	$r=array_shift($args);
+	foreach($args as $a){
+		$r=rtrim($r,'/\\').'/'.ltrim($a,'/\\');
+	}
+	return $r;
 }
 
 function urlenc($p){
@@ -251,10 +259,9 @@ function getbase($s){
 }
 
 function loadcfg($d){
-	$d=fixdirpath($d);
 	$arr=array();
-	if(ufile_exists($d.'config.ini')){
-		$s=ufile_get_contents($d.'config.ini');
+	if(ufile_exists(pathjoin($d,'config.ini'))){
+		$s=ufile_get_contents(pathjoin($d,'config.ini'));
 		$s=preg_replace("/[\r\n]+/s","\n",$s);
 		$a=explode("\n",$s);
 		foreach($a as $l){
@@ -328,7 +335,7 @@ function dirsize($d){
 			$dp=opendir($d);
 			while(false!==($e=readdir($dp))){
 				if($e=='.' || $e=='..'){continue;}
-				$z+=dirsize($d.'/'.$e);
+				$z+=dirsize(pathjoin($d,$e));
 			}
 			closedir($dp);
 			$RTI['memcache']->set($key,$z,0,rand(86400,604800));
@@ -374,11 +381,10 @@ function newer($a,$b){
 		return true;
 	}
 	if(is_dir($a)){
-		$a=fixdirpath($a);
 		$dp=opendir($a);
 		while(false!==($e=readdir($dp))){
 			if($e=='.' || $e=='..'){continue;}
-			if(newer($a.$e,$b)){
+			if(newer(pathjoin($a,$e),$b)){
 				closedir($dp);
 				return true;
 			}
@@ -420,7 +426,7 @@ function istoday_r($f){
 		$dp=opendir($f);
 		while($e=readdir($dp)){
 			if($e=='.' || $e=='..'){continue;}
-			if(istoday_r($f.'/'.$e)){
+			if(istoday_r(pathjoin($f,$e))){
 				closedir($dp);
 				touch($f,$ft);
 				return true;
@@ -444,7 +450,7 @@ function tryindex($fs,$dir){
 	global $CFG,$RTI;
 	$bdir=basedir($dir);
 	$index_file='';
-	$ifile=$CFG['cachedir'].$RTI['base'].'/'.sha1($dir).'.idx';
+	$ifile=pathjoin($CFG['cachedir'],$RTI['base'],sha1($dir).'.idx');
 	if(isarchive() && ($index_file=@file_get_contents($ifile))!==false){
 		return $index_file;
 	}else{
