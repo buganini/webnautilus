@@ -320,19 +320,14 @@ function redirect($s){
 }
 
 function dirsize($d){
+	global $CFG,$RTI;
 	if(is_dir($d)){
-		return exe('du -sk '.escapeshellarg(r($d)))*2*1024;
-	}else{
-		return filesize($d);
-	}
-}
-
-/* old method, slow and the cache dont check if info is renew
-function dirsize($d){
-	global $base,$CFG['cachedir'],$RTI;
-	if(is_dir($d)){
-		$sfile=$CFG['cachedir'].$RTI['base'].'/'.sha1($d).'.siz';
-		if($base[$RTI['base']][2] && ($ret=@file_get_contents($sfile))!==false){
+		$memcache = new Memcache;
+		$memcache->pconnect($CFG['memcache']);
+		$key='dirsize-'.$RTI['base'].'-'.$d.'-'.filetime($d);
+		$ret=$memcache->get($key);
+		if($ret!==false){
+			$memcache->set($key,$ret);
 			return $ret;
 		}else{
 			$z=0;
@@ -342,16 +337,13 @@ function dirsize($d){
 				$z+=dirsize($d.'/'.$e);
 			}
 			closedir($dp);
-			if($base[$RTI['base']][2]){
-				file_put_contents($sfile,$z);
-			}
+			$memcache->set($key,$z);
 			return $z;
 		}
 	}else{
 		return filesize($d);
 	}
 }
-*/
 
 function fsize($s){
 	$lvu=array('','K','M','G','T');
