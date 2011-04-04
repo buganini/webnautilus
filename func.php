@@ -46,14 +46,19 @@ $RTI['memcache']->pconnect($CFG['memcache']);
 function mklink($base,$sub){
 	$r=array();
 	$t='';
-	$a=explode('/',trim($sub,'/'));
+	$sub=trim($sub,'/');
+	if($sub)
+		$a=explode('/',$sub);
+	else
+		$a=array();
 	$r[]='<a href="index.php?base='.$base.'">'.$base.'</a>';
 	$l=count($a)-1;
 	for($i=0;$i<$l;++$i){
 		$t=pathjoin($t,$a[$i]);
 		$r[]='<a href="index.php?base='.$base.'&dir='.urlencode($t).'">'.$a[$i].'</a>';
 	}
-	$r[]='<a>'.$a[$l].'</a>';
+	if($l>=0)
+		$r[]='<a>'.$a[$l].'</a>';
 	return '<span id="link">'.implode('/',$r).'</span>';
 }
 
