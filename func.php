@@ -40,6 +40,9 @@ $CFG['cacheurl']=fixdirpath($CFG['cacheurl']);
 $sysroot=fixdirpath(dirname(__FILE__));
 chdir($sysroot);
 
+$RTI['memcache'] = new Memcache;
+$RTI['memcache']->pconnect($CFG['memcache']);
+
 function mklink($base,$sub){
 	$r=array();
 	$t='';
@@ -59,27 +62,21 @@ function selfurl(){
 }
 
 function mylocked($t){
-	global $CFG;
-	$memcache = new Memcache;
-	$memcache->pconnect($CFG['memcache']);
-	if($memcache->get('webnautilus-'.$t)){
+	global $RTI;
+	if($RTI['memcache']->get('webnautilus-'.$t)){
 		return true;
 	}
 	
 }
 
 function mylock($t){
-	global $CFG;
-	$memcache = new Memcache;
-	$memcache->pconnect($CFG['memcache']);
-	$memcache->set('webnautilus-'.$t,1,0,86400);
+	global $RTI;
+	$RTI['memcache']->set('webnautilus-'.$t,1,0,86400);
 }
 
 function myunlock($t){ 
-	global $CFG;
-	$memcache = new Memcache;
-	$memcache->pconnect($CFG['memcache']);
-	$memcache->delete('webnautilus-'.$t);
+	global $RTI;
+	$RTI['memcache']->delete('webnautilus-'.$t);
 }
 
 function mkhash($f){
@@ -320,14 +317,11 @@ function redirect($s){
 }
 
 function dirsize($d){
-	global $CFG,$RTI;
+	global $RTI;
 	if(is_dir($d)){
-		$memcache = new Memcache;
-		$memcache->pconnect($CFG['memcache']);
 		$key='dirsize-'.$RTI['base'].'-'.$d.'-'.filetime($d);
-		$ret=$memcache->get($key);
+		$ret=$RTI['memcache']->get($key);
 		if($ret!==false){
-			$memcache->set($key,$ret);
 			return $ret;
 		}else{
 			$z=0;
@@ -337,7 +331,7 @@ function dirsize($d){
 				$z+=dirsize($d.'/'.$e);
 			}
 			closedir($dp);
-			$memcache->set($key,$z);
+			$RTI['memcache']->set($key,$z,0,rand(86400,604800));
 			return $z;
 		}
 	}else{
