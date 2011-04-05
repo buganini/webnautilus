@@ -29,7 +29,7 @@ $base=array(
 #filename in this list will not display, in lower case
 $ignore=array('thumbs.db','desktop.ini','readme.txt');
 
-set_timezone('Asia/Taipei');
+date_default_timezone_set('Asia/Taipei');
 #---------------------------------------------------------------------------
 $_now=time();
 
