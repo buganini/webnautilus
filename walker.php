@@ -14,7 +14,7 @@ while(count($todo)){
 	list($b,$p)=array_shift($todo);
 #	echo $b.$p."\n";
 	$rootdir=getbase($b);
-	$fp=$rootdir.$p;
+	$fp=pathjoin($rootdir,$p);
 	if(uis_dir($fp)){
 		$fs=uscandir($fp);
 		foreach($fs as $f){
