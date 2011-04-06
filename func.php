@@ -18,7 +18,7 @@ $CFG['ghostscript']='/usr/local/bin/gsc';
 $CFG['firefox']='C:/Firefox/firefox.exe';
 $CFG['ffprofile']='d:/ffprofile';
 $CFG['ffdownload']='d:/ffdown/';
-$DEFAULT['thumb_size']='80x60';
+$CFG['thumb_size']='80x60';
 
 $base=array(
 	#'basename'=>array('title','relative path',archive);

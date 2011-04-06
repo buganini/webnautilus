@@ -13,7 +13,7 @@ $hash=$_GET['base'].'/'.$hash;
 if(preg_match('/^[0-9]+x[0-9]+$/',$_GET['size'])){
 	$size=$_GET['size'];
 }else{
-	$size=$DEFAULT['thumb_size'];
+	$size=$CFG['thumb_size'];
 }
 $extmap=array(
 	'zip'=>'archive.gif',

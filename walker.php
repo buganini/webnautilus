@@ -27,7 +27,7 @@ while(count($todo)){
 	$hash=mkhash($fp);
 	$hash=$b.'/'.$hash;
 
-	$size=$DEFAULT['thumb_size'];
+	$size=$CFG['thumb_size'];
 
 	if(thumb_able($fp)){
 		if(!newer($fp,$CFG['cachedir'].$hash.'_'.$size.'.jpg')){
