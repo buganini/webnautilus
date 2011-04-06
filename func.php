@@ -5,7 +5,6 @@ $CFG['memcache']='localhost';
 $CFG['cachedir']='/home/www/picture/cache/';
 $CFG['cacheurl']='cache/';
 $CFG['tempdir']='/home/www/picture/temp/';
-$CFG['mencoder']='/usr/local/bin/mencoder';
 $CFG['mplayer']='/usr/local/bin/mplayer';
 $CFG['yamdi']='/usr/local/bin/yamdi';
 $CFG['ffmpeg']='/usr/local/bin/ffmpeg';
