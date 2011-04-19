@@ -30,11 +30,15 @@ while(count($todo)){
 	$size=$CFG['thumb_size'];
 
 	if(thumb_able($fp)){
-		if(!newer($fp,$CFG['cachedir'].$hash.'_'.$size.'.jpg')){
+		$cf=$CFG['cachedir'].$hash.'_'.$size.'.jpg';
+		if(!newer($fp,$cf)){
+			touch($cf,filemtime($cf),$_now);
 			continue;
 		}
 	}elseif(isaudio($fp)){
-		if(!newer($fp,$CFG['cachedir'].$hash.'.mp3')){
+		$cf=$CFG['cachedir'].$hash.'.mp3';
+		if(!newer($fp,$cf)){
+			touch($cf,filemtime($cf),$_now);
 			continue;
 		}
 	}else{

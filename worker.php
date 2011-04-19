@@ -33,7 +33,7 @@ if(isvideo($file)){
 					copy($CFG['tempdir'].$thash.'.mp4',$CFG['cachedir'].$hash.'.mp4');
 				}
 				uunlink($CFG['tempdir'].$thash.'.mp4');
-				touch($CFG['cachedir'].$hash.'.mp4',ufiletime($rootdir.$file));
+				touch($CFG['cachedir'].$hash.'.mp4',ufiletime($rootdir.$file),$_now);
 			}
 			if(!file_exists($CFG['cachedir'].$hash.'_L.jpg')){
 				$cmd3=$CFG['mplayer'].' -identify -nosound -vc dummy -vo null '.escapeshellarg($CFG['cachedir'].$hash.'.mp4');
@@ -42,11 +42,11 @@ if(isvideo($file)){
 				$len=$len[1];
 				$cmd4=$CFG['ffmpeg'].' -i '.escapeshellarg($CFG['cachedir'].$hash.'.mp4').' -y -ss '.($len/2).' -s 680x480 '.escapeshellarg($CFG['cachedir'].$hash.'_L.jpg');
 				exe($cmd4);
-				touch($CFG['cachedir'].$hash.'_L.jpg',ufiletime($rootdir.$file));
+				touch($CFG['cachedir'].$hash.'_L.jpg',ufiletime($rootdir.$file),$_now);
 			}
 			$cmd5=$CFG['imagemagick_convert'].' -quality 70 -geometry '.$size.' '.escapeshellarg($CFG['cachedir'].$hash.'_L.jpg').' '.escapeshellarg($CFG['cachedir'].$hash.'_'.$size.'.jpg');
 			exe($cmd5);
-			touch($CFG['cachedir'].$hash.'_'.$size.'.jpg',ufiletime($rootdir.$file));
+			touch($CFG['cachedir'].$hash.'_'.$size.'.jpg',ufiletime($rootdir.$file),$_now);
 		myunlock($thash);
 	}
 }elseif(isaudio($file)){
@@ -62,7 +62,7 @@ if(isvideo($file)){
 			$cmd=$CFG['ffmpeg'].' -y -i '.escapeshellarg(r($rootdir.$file)).' '.escapeshellarg($CFG['cachedir'].$hash.'.mp3');
 			exe($cmd);
 		}
-		touch($CFG['cachedir'].$hash.'.mp3',ufiletime($rootdir.$file));
+		touch($CFG['cachedir'].$hash.'.mp3',ufiletime($rootdir.$file),$_now);
 		myunlock($thash);		
 	}	
 }elseif(isimage($file)){
@@ -83,7 +83,7 @@ if(isvideo($file)){
 					++$i;
 				}
 			}
-			touch($CFG['cachedir'].$hash.'_'.$size.'.jpg',ufiletime($rootdir.$file));
+			touch($CFG['cachedir'].$hash.'_'.$size.'.jpg',ufiletime($rootdir.$file),$_now);
 		myunlock($thash);
 	}
 }elseif(isdocument($file)){
@@ -103,7 +103,7 @@ if(isvideo($file)){
 					exe($cmd);
 				}
 				copy($pdf,$CFG['cachedir'].$hash.'.pdf');
-				touch($CFG['cachedir'].$hash.'.pdf',ufiletime($rootdir.$file));
+				touch($CFG['cachedir'].$hash.'.pdf',ufiletime($rootdir.$file),$_now);
 				$cmd=$CFG['ghostscript'].' -dNOPAUSE -dBATCH -dFirstPage=1 -dLastPage=1 -sDEVICE=bmp16 -sOutputFile='.$CFG['tempdir'].$thash.'.bmp '.escapeshellarg($pdf);
 				exe($cmd);
 				rmtry($tfile);
@@ -115,7 +115,7 @@ if(isvideo($file)){
 			rmtry($CFG['tempdir'].$thash.'.bmp');
 			if(ufile_exists($CFG['tempdir'].$thash.'.jpg')){
 				ucopy($CFG['tempdir'].$thash.'.jpg',$CFG['cachedir'].$hash.'_'.$size.'.jpg');
-				touch($CFG['cachedir'].$hash.'_'.$size.'.jpg',ufiletime($rootdir.$file));
+				touch($CFG['cachedir'].$hash.'_'.$size.'.jpg',ufiletime($rootdir.$file),$_now);
 				uunlink($CFG['tempdir'].$thash.'.jpg');
 			}
 		myunlock($thash);

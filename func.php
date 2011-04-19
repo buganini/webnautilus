@@ -432,7 +432,7 @@ function istoday_r($f){
 			if($e=='.' || $e=='..'){continue;}
 			if(istoday_r(pathjoin($f,$e))){
 				closedir($dp);
-				touch($f,$ft);
+				touch($f,$ft,$_now);
 				return true;
 			}
 		}
