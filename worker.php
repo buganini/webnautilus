@@ -87,7 +87,7 @@ if(isvideo($file)){
 		myunlock($thash);
 	}
 }elseif(isdocument($file)){
-	if(newer($rootdir.$file,$CFG['cachedir'].$hash.'_'.$size.'.jpg')){
+	if(newer($rootdir.$file,$CFG['cachedir'].$hash.'.pdf') || newer($rootdir.$file,$CFG['cachedir'].$hash.'_'.$size.'.jpg')){
 		mylock($thash) || exit;
 			if(!ufile_exists($CFG['tempdir'].$thash.'.bmp')){
 				$tfile=$CFG['tempdir'].$thash.'.'.getext($file);
