@@ -26,7 +26,7 @@ if(isvideo($file)){
 				exe($cmd1);
 				rmtry($CFG['cachedir'].$hash.'.mp4');
 				rmtry($CFG['cachedir'].$hash.'_L.jpg');
-				rmtry($CFG['cachedir'].$hash.'.jpg');
+				rmtry($CFG['cachedir'].$hash.'_'.$size.'.jpg');
 				$cmd2=$CFG['yamdi'].' -i '.escapeshellarg($CFG['tempdir'].$thash.'.mp4').' -o '.escapeshellarg($CFG['cachedir'].$hash.'.mp4');
 				exe($cmd2);
 				if(!file_exists($CFG['cachedir'].$hash.'.mp4')){
