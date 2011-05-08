@@ -29,18 +29,36 @@ while(count($todo)){
 
 	$size=$CFG['thumb_size'];
 
-	if(thumb_able($fp)){
-		$cf=$CFG['cachedir'].$hash.'_'.$size.'.jpg';
-		if(!newer($fp,$cf)){
-			touch($cf,filemtime($cf),$_now);
+	if(isimage($fp)){
+		$t1=$CFG['cachedir'].$hash.'_'.$size.'.jpg';
+		if(! newer($fp,$t1) ){
+			touch($t1,filemtime($t1),$_now);
+			continue;
+		}
+	}elseif(isvideo($fp)){
+		$t1=$CFG['cachedir'].$hash.'.mp4';
+		$t2=$CFG['cachedir'].$hash.'_L.jpg';
+		$t3=$CFG['cachedir'].$hash.'_'.$size.'.jpg';
+		if(!( newer($fp,$t1) || newer($fp,$t2) || newer($fp,$t3) )){
+			touch($t1,filemtime($t1),$_now);
+			touch($t2,filemtime($t2),$_now);
+			touch($t3,filemtime($t3),$_now);
 			continue;
 		}
 	}elseif(isaudio($fp)){
-		$cf=$CFG['cachedir'].$hash.'.mp3';
-		if(!newer($fp,$cf)){
-			touch($cf,filemtime($cf),$_now);
+		$t1=$CFG['cachedir'].$hash.'.mp3';
+		if(!newer($fp,$t1)){
+			touch($t1,filemtime($t1),$_now);
 			continue;
 		}
+	}elseif(isdocument($fp)){
+		$t1=$CFG['cachedir'].$hash.'.pdf';
+		$t2=$CFG['cachedir'].$hash.'_'.$size.'.jpg';
+		if(!( newer($fp,$t1) || newer($fp,$t2) )){
+			touch($t1,filemtime($t1),$_now);
+			touch($t2,filemtime($t2),$_now);
+			continue;
+		}		
 	}else{
 		continue;
 	}
