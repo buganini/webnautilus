@@ -21,7 +21,7 @@ if(!ufile_exists($CFG['cachedir'].$job['base'])){
 if(isvideo($file)){
 	if((newer($rootdir.$file,$CFG['cachedir'].$hash.'.mp4') || newer($rootdir.$file,$CFG['cachedir'].$hash.'_L.jpg') || newer($rootdir.$file,$CFG['cachedir'].$hash.'_'.$size.'.jpg'))){
 		mylock($thash) || exit;
-			if(!file_exists($CFG['cachedir'].$hash.'.mp4')){
+			if(newer($rootdir.$file,$CFG['cachedir'].$hash.'.mp4')){
 				$cmd1=$CFG['ffmpeg'].' -y -i '.escapeshellarg(r($rootdir.$file)).' -acodec libfaac -ab 96 -bufsize 500k -maxrate 500k -vcodec libx264 -vpre fast -crf 22 -threads 0 '.escapeshellarg($CFG['tempdir'].$thash.'.mp4');
 				exe($cmd1);
 				rmtry($CFG['cachedir'].$hash.'.mp4');
@@ -35,7 +35,7 @@ if(isvideo($file)){
 				uunlink($CFG['tempdir'].$thash.'.mp4');
 				touch($CFG['cachedir'].$hash.'.mp4',ufiletime($rootdir.$file),$_now);
 			}
-			if(!file_exists($CFG['cachedir'].$hash.'_L.jpg')){
+			if(newer($rootdir.$file,$CFG['cachedir'].$hash.'_L.jpg')){
 				$cmd3=$CFG['mplayer'].' -identify -nosound -vc dummy -vo null '.escapeshellarg($CFG['cachedir'].$hash.'.mp4');
 				$info=exe($cmd3);
 				preg_match('/ID_LENGTH=([0-9\\.]+)/s',$info,$len);
