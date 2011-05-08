@@ -37,6 +37,7 @@ Notes:
 	crontab:
 		0       2       *       *       *       root    /usr/local/bin/php /home/www/picture/walker.php
 		0       3       *       *       *       root    find /home/www/cache -atime +7 -delete
+		0       3       *       *       *       root    find /home/www/cache -size 0 -delete
 
 	robots:
 		User-agent: *
