@@ -5,6 +5,7 @@ Dependency:
 	archivers/p7zip
 	audio/timidity
 	converters/enca
+	databases/memcached
 	databases/pecl-memcache
 	devel/gearmand
 	devel/pecl-gearman
